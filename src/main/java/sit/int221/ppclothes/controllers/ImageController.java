@@ -50,5 +50,4 @@ public class ImageController {
         return Value;
     }
 
-
 }
