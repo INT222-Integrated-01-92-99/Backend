@@ -1,53 +1,61 @@
 package sit.int221.ppclothes.controllers;
 
-import java.io.IOException;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
+import sit.int221.ppclothes.models.ImageDetail;
+import sit.int221.ppclothes.services.StorageService;
 
-import sit.int221.ppclothes.services.Filepath;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 @RestController
 public class ImageController {
+    final StorageService storageService;
+
     @Autowired
-    Filepath File;
+    public ImageController(StorageService storageService) {
+        this.storageService = storageService;
+    }
 
-    @PostMapping("/uploadImage")
-    public String uploadImage(@RequestParam("img") MultipartFile img) {
-        String Value = "success";
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile image) {
+        String message;
+        Random rand = new Random();
+        Long randomName;
+        do  {
+            randomName = rand.nextLong();
+        } while (randomName < 0);
         try {
-            File.saveImage(img,img.getOriginalFilename());
+            storageService.store(image, randomName);
+            message = "Upload image: " + image.getOriginalFilename() + " successfully.";
+            return ResponseEntity.status(HttpStatus.OK).body(message);
         } catch (Exception e) {
-            e.printStackTrace();
-            Value = "error";
+            message = "Upload image: " + image.getOriginalFilename() + " failed.";
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
         }
-        return Value;
     }
 
-    @GetMapping(value = "/getImage/{name}", produces = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE })
-    public byte[] getImage(@PathVariable String name) throws IOException {
-        return File.getFile(name);
+    @GetMapping("/images")
+    public List<ImageDetail> getListImages() {
+
+        return storageService.loadAll().map(path -> {
+            String imageName = path.getFileName().toString();
+            String imageUrl = MvcUriComponentsBuilder
+                    .fromMethodName(ImageController.class,
+                            "showImage", path.getFileName().toString()).build().toString();
+            return new ImageDetail(imageName, imageUrl);
+        }).collect(Collectors.toList());
     }
 
-    @DeleteMapping("/deleteImage")
-    public String deleteImage(@RequestParam String name) {
-        String Value = "Delete already.";
-        try {
-            File.deleteImage(name);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Value = "Can't delete.";
-        }
-        return Value;
+    @GetMapping(value = "/image/{imageName}", produces = MediaType.IMAGE_PNG_VALUE)
+    public Resource showImage(@PathVariable String imageName) {
+        return storageService.loadAsResource(imageName);
     }
-
 }

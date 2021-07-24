@@ -1,7 +1,5 @@
 package sit.int221.ppclothes.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
 import java.util.List;
 @Entity
@@ -15,10 +13,22 @@ public class Product {
     private java.sql.Date proMfd;
     private String proPathImg;
     @ManyToOne
-    @JoinColumn(name = "idBrand")
+    @JoinColumn(name = "Brand_idBrand")
     private Brand brand;
     @OneToMany(mappedBy = "product")
     private List<Item> Item;
+
+    public Product() {
+    }
+
+    public Product(long idPro, String proDescript, double proPrice, String proName, String proPathImg, Brand brand) {
+        this.idPro = idPro;
+        this.proDescript = proDescript;
+        this.proPrice = proPrice;
+        this.proName = proName;
+        this.proPathImg = proPathImg;
+        this.brand = brand;
+    }
 
     public long getIdPro() {
         return idPro;

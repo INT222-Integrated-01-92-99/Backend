@@ -4,7 +4,9 @@ import sit.int221.ppclothes.exceptions.ExceptionRepo;
 import sit.int221.ppclothes.exceptions.ProductException;
 import org.springframework.web.bind.annotation.*;
 import sit.int221.ppclothes.models.Product;
+import sit.int221.ppclothes.models.Item;
 import sit.int221.ppclothes.repositories.repoProduct;
+import sit.int221.ppclothes.repositories.repoItem;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -16,6 +18,8 @@ public class ProductController {
 
     @Autowired
     private repoProduct repoPro;
+    @Autowired
+    private repoItem repoItem;
 
     @GetMapping("/product")
     public List<Product> products(){
@@ -30,6 +34,13 @@ public class ProductController {
             throw new ProductException(ExceptionRepo.ERROR_CODE.PRODUCT_ID_ALREADY_EXIST,"Id : "+newproduct.getIdPro() + " Have Already");
         }else if(repoPro.findByName(newproduct.getProName()) != null){
             throw new ProductException(ExceptionRepo.ERROR_CODE.PRODUCT_NAME_ALREADY_EXIST,"Name : "+newproduct.getProName() + " Have Already");
+        }
+        Product Productitem = new Product(newproduct.getIdPro(),newproduct.getProDescript(),newproduct.getProPrice(),newproduct.getProName(),newproduct.getProPathImg(),newproduct.getBrand());
+        repoPro.save(Productitem);
+        List<Item> item = newproduct.getItem();
+        for(Item item1 : item){
+            item1.setProduct(newproduct);
+            repoItem.save(item1);
         }
         return repoPro.save(newproduct);
     }
