@@ -1,6 +1,7 @@
 package sit.int221.ppclothes.models;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.List;
 @Entity
 public class Product {
@@ -21,14 +22,16 @@ public class Product {
     public Product() {
     }
 
-    public Product(long idPro, String proDescript, double proPrice, String proName, String proPathImg, Brand brand) {
+    public Product(long idPro, String proName, String proDescript, double proPrice, Date proMfd, String proPathImg, Brand brand ){
         this.idPro = idPro;
+        this.proName = proName;
         this.proDescript = proDescript;
         this.proPrice = proPrice;
-        this.proName = proName;
+        this.proMfd = proMfd;
         this.proPathImg = proPathImg;
         this.brand = brand;
     }
+
 
     public long getIdPro() {
         return idPro;
