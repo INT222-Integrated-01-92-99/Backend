@@ -14,7 +14,7 @@ public class Product {
     private java.sql.Date proMfd;
     private String proPathImg;
     @ManyToOne
-    @JoinColumn(name = "Brand_idBrand")
+    @JoinColumn(name = "idBrand")
     private Brand brand;
     @OneToMany(mappedBy = "product")
     private List<Item> Item;

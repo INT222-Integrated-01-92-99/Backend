@@ -38,8 +38,8 @@ public class ProductController {
         }else if(repoPro.findByName(newproduct.getProName()) != null){
             throw new ProductException(ExceptionRepo.ERROR_CODE.PRODUCT_NAME_ALREADY_EXIST,"Name : "+newproduct.getProName() + " Have Already");
         }
-        Product Productitem = new Product(newproduct.getIdPro(), newproduct.getProName(),newproduct.getProDescript(),newproduct.getProPrice(),newproduct.getProMfd(),newproduct.getProPathImg(),newproduct.getBrand());
-        repoPro.save(Productitem);
+        Product Productnoitem = new Product(newproduct.getIdPro(), newproduct.getProName(),newproduct.getProDescript(),newproduct.getProPrice(),newproduct.getProMfd(),newproduct.getProPathImg(),newproduct.getBrand());
+        repoPro.save(Productnoitem);
         List<Item> item = newproduct.getItem();
         for(Item item1 : item){
             item1.setProduct(newproduct);

@@ -2,7 +2,7 @@ package sit.int221.ppclothes.services;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "ppclothes.storage")
+@ConfigurationProperties(prefix = "clothes.storage")
 public class StorageProperties {
     private String location;
 
