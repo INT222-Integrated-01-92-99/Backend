@@ -129,4 +129,11 @@ public class ProductController {
         }
         return repoPro.save(editProduct);
     }
+
+    @GetMapping("/product/{idPro}")
+    public Product productwihtid(@PathVariable Long idPro){
+        Product product = repoPro.findById(idPro).orElse(null);
+        return product;
+    }
+
 }
