@@ -136,4 +136,9 @@ public class ProductController {
         return product;
     }
 
+    @GetMapping("/getmaxidPro")
+    public long maxIdproduct() {
+        return repoPro.getMaxproId();
+    }
+
 }
