@@ -1,15 +1,23 @@
 package sit.int221.ppclothes.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import sit.int221.ppclothes.exceptions.ExceptionRepo;
 import sit.int221.ppclothes.exceptions.ProductException;
+
 import sit.int221.ppclothes.models.Product;
 import sit.int221.ppclothes.models.Item;
+import sit.int221.ppclothes.models.Brand;
+
 import sit.int221.ppclothes.repositories.repoProduct;
 import sit.int221.ppclothes.repositories.repoItem;
+import sit.int221.ppclothes.repositories.repoBrand;
+
 import sit.int221.ppclothes.services.StorageService;
 
 import java.util.List;
@@ -21,6 +29,8 @@ public class ProductController {
     private repoProduct repoPro;
     @Autowired
     private repoItem repoItem;
+    @Autowired
+    private repoBrand repoBrand;
     @Autowired
     StorageService storageService;
 
@@ -139,6 +149,11 @@ public class ProductController {
     @GetMapping("/getmaxidPro")
     public long maxIdproduct() {
         return repoPro.getMaxproId();
+    }
+
+    @GetMapping("/search")
+    public List<Product> searchproduct(@RequestParam String proname,@RequestParam Long idbrand) {
+        return repoPro.searchwithoutbrand(proname);
     }
 
 }

@@ -1,5 +1,6 @@
 package sit.int221.ppclothes.controllers;
 
+import org.springframework.web.bind.annotation.RequestParam;
 import sit.int221.ppclothes.models.Brand;
 import sit.int221.ppclothes.repositories.repoBrand;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,4 +19,8 @@ public class BrandController {
         return repoBrand.findAll();
     }
 
+    @GetMapping ("/selectbrand")
+    public Brand selectbrand(@RequestParam long brand){
+        return repoBrand.selectbrandwithid(brand);
+    }
 }
