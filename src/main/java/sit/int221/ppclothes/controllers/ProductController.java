@@ -1,9 +1,7 @@
 package sit.int221.ppclothes.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,11 +9,10 @@ import sit.int221.ppclothes.exceptions.ExceptionRepo;
 import sit.int221.ppclothes.exceptions.ProductException;
 
 import sit.int221.ppclothes.models.Product;
-import sit.int221.ppclothes.models.Item;
-import sit.int221.ppclothes.models.Brand;
+import sit.int221.ppclothes.models.Prowithcolors;
 
 import sit.int221.ppclothes.repositories.repoProduct;
-import sit.int221.ppclothes.repositories.repoItem;
+import sit.int221.ppclothes.repositories.repoProwithcolos;
 import sit.int221.ppclothes.repositories.repoBrand;
 
 import sit.int221.ppclothes.services.StorageService;
@@ -28,7 +25,7 @@ public class ProductController {
     @Autowired
     private repoProduct repoPro;
     @Autowired
-    private repoItem repoItem;
+    private repoProwithcolos repoProwithcolos;
     @Autowired
     private repoBrand repoBrand;
     @Autowired
@@ -50,10 +47,10 @@ public class ProductController {
         }
         Product Productnoitem = new Product(newproduct.getIdPro(), newproduct.getProName(),newproduct.getProDescript(),newproduct.getProPrice(),newproduct.getProMfd(),newproduct.getProPathImg(),newproduct.getBrand());
         repoPro.save(Productnoitem);
-        List<Item> item = newproduct.getItem();
-        for(Item item1 : item){
-            item1.setProduct(newproduct);
-            repoItem.save(item1);
+        List<Prowithcolors> prowithcolors = newproduct.getProwithcolorList();
+        for(Prowithcolors prowithcolors1 : prowithcolors){
+            prowithcolors1.setProduct(newproduct);
+            repoProwithcolos.save(prowithcolors1);
         }
         return repoPro.save(newproduct);
     }
@@ -71,10 +68,10 @@ public class ProductController {
         }else newproduct.setProPathImg(storageService.store(imageFile,newproduct.getIdPro()));
         Product Productitem = new Product(newproduct.getIdPro(), newproduct.getProName(),newproduct.getProDescript(),newproduct.getProPrice(),newproduct.getProMfd(),newproduct.getProPathImg(),newproduct.getBrand());
         repoPro.save(Productitem);
-        List<Item> item = newproduct.getItem();
-        for(Item item1 : item){
-            item1.setProduct(newproduct);
-            repoItem.save(item1);
+        List<Prowithcolors> prowithcolors = newproduct.getProwithcolorList();
+        for(Prowithcolors prowithcolors1 : prowithcolors){
+            prowithcolors1.setProduct(newproduct);
+            repoProwithcolos.save(prowithcolors1);
         }
         return repoPro.save(newproduct);
     }
@@ -85,9 +82,9 @@ public class ProductController {
         if(product == null){
             throw new ProductException(ExceptionRepo.ERROR_CODE.PRODUCT_DOES_NOT_EXIST,"Can't delete. Id : "+idPro + " does not exist.");
         }else storageService.delete(product.getProPathImg());
-        List<Item> beforeEditProduct = product.getItem();
-        for(Item item : beforeEditProduct){
-            repoItem.deleteById(item.getIdItem());
+        List<Prowithcolors> beforeEditProduct = product.getProwithcolorList();
+        for(Prowithcolors prowithcolors : beforeEditProduct){
+            repoProwithcolos.deleteById(prowithcolors.getIdProwithcolors());
         }
         repoPro.deleteById(idPro);
     }
@@ -101,14 +98,14 @@ public class ProductController {
         }else if(productName != null && productId.getIdPro() != productName.getIdPro()){
             throw new ProductException(ExceptionRepo.ERROR_CODE.PRODUCT_NAME_ALREADY_EXIST,"Can't edit . Name : "+editProduct.getProName() + " already exist.");
         }
-        List<Item> beforeEditProduct = productId.getItem();
-        for(Item item1 : beforeEditProduct){
-            repoItem.deleteById(item1.getIdItem());
+        List<Prowithcolors> beforeEditProduct = productId.getProwithcolorList();
+        for(Prowithcolors prowithcolors1 : beforeEditProduct){
+            repoProwithcolos.deleteById(prowithcolors1.getIdProwithcolors());
         }
-        List<Item> item = editProduct.getItem();
-        for(Item item2 : item){
-            item2.setProduct(editProduct);
-            repoItem.save(item2);
+        List<Prowithcolors> prowithcolors = editProduct.getProwithcolorList();
+        for(Prowithcolors prowithcolors2 : prowithcolors){
+            prowithcolors2.setProduct(editProduct);
+            repoProwithcolos.save(prowithcolors2);
         }
         return repoPro.save(editProduct);
     }
@@ -126,16 +123,16 @@ public class ProductController {
         }
         storageService.delete(productId.getProPathImg());
         editProduct.setProPathImg(storageService.store(imageFile,editProduct.getIdPro()));
-        List<Item> beforeEditProduct = productId.getItem();
-        for(Item item1 : beforeEditProduct){
-            repoItem.deleteById(item1.getIdItem());
+        List<Prowithcolors> beforeEditProduct = productId.getProwithcolorList();
+        for(Prowithcolors prowithcolors1 : beforeEditProduct){
+            repoProwithcolos.deleteById(prowithcolors1.getIdProwithcolors());
         }
         Product Productitem = new Product(editProduct.getIdPro(), editProduct.getProName(),editProduct.getProDescript(),editProduct.getProPrice(),editProduct.getProMfd(),editProduct.getProPathImg(),editProduct.getBrand());
         repoPro.save(Productitem);
-        List<Item> item = editProduct.getItem();
-        for(Item item2 : item){
-            item2.setProduct(editProduct);
-            repoItem.save(item2);
+        List<Prowithcolors> prowithcolors = editProduct.getProwithcolorList();
+        for(Prowithcolors prowithcolors2 : prowithcolors){
+            prowithcolors2.setProduct(editProduct);
+            repoProwithcolos.save(prowithcolors2);
         }
         return repoPro.save(editProduct);
     }

@@ -5,13 +5,13 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Item")
-public class Item {
+@Table(name = "prowithcolors")
+public class Prowithcolors {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idItem")
-    private long idItem;
-
+    @Column(name = "idProWithCol")
+    private long idprowithcolors;
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name="idColor")
     private Color color;
@@ -20,12 +20,12 @@ public class Item {
     @JoinColumn(name="idPro")
     private Product product;
 
-    public long getIdItem() {
-        return idItem;
+    public long getIdProwithcolors() {
+        return idprowithcolors;
     }
 
-    public void setIdItem(long idItem) {
-        this.idItem = idItem;
+    public void setIdProwithcolors(long idprowithcolors) {
+        this.idprowithcolors = idprowithcolors;
     }
 
     public Color getColor() {

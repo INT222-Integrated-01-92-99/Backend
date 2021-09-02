@@ -17,7 +17,7 @@ public class Color {
     private String colorCode;
     @JsonBackReference
     @OneToMany(mappedBy = "color")
-    private List<Item> itemList;
+    private List<Prowithcolors> prowithcolorsList;
 
     public long getIdColor() {
         return idColor;
@@ -45,11 +45,11 @@ public class Color {
         this.colorCode = colorCode;
     }
 
-    public List<Item> getItemList() {
-        return itemList;
+    public List<Prowithcolors> getItemList() {
+        return prowithcolorsList;
     }
 
-    public void setItemList(List<Item> itemList) {
-        this.itemList = itemList;
+    public void setItemList(List<Prowithcolors> prowithcolorsList) {
+        this.prowithcolorsList = prowithcolorsList;
     }
 }

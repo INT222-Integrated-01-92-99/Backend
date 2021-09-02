@@ -11,18 +11,20 @@ public class Product {
     private String proName;
     private String proDescript;
     private double proPrice;
+    private long proAmount;
     private java.sql.Date proMfd;
     private String proPathImg;
     @ManyToOne
     @JoinColumn(name = "idBrand")
     private Brand brand;
     @OneToMany(mappedBy = "product")
-    private List<Item> Item;
+    private List<Prowithcolors> prowithcolorList;
+    @OneToMany(mappedBy = "product")
+    private List<CartDetails> cartDetailsList;
+    @OneToMany(mappedBy = "product")
+    private List<ReceiptDetails> ReceiptDetailsList;
 
-    public Product() {
-    }
-
-    public Product(long idPro, String proName, String proDescript, double proPrice, Date proMfd, String proPathImg, Brand brand ){
+    public Product(long idPro, String proName, String proDescript, double proPrice, Date proMfd, String proPathImg, Brand brand) {
         this.idPro = idPro;
         this.proName = proName;
         this.proDescript = proDescript;
@@ -32,6 +34,9 @@ public class Product {
         this.brand = brand;
     }
 
+    public Product() {
+
+    }
 
     public long getIdPro() {
         return idPro;
@@ -41,7 +46,6 @@ public class Product {
         this.idPro = idPro;
     }
 
-
     public String getProName() {
         return proName;
     }
@@ -49,7 +53,6 @@ public class Product {
     public void setProName(String proName) {
         this.proName = proName;
     }
-
 
     public String getProDescript() {
         return proDescript;
@@ -59,7 +62,6 @@ public class Product {
         this.proDescript = proDescript;
     }
 
-
     public double getProPrice() {
         return proPrice;
     }
@@ -68,15 +70,21 @@ public class Product {
         this.proPrice = proPrice;
     }
 
+    public long getProAmount() {
+        return proAmount;
+    }
 
-    public java.sql.Date getProMfd() {
+    public void setProAmount(long proAmount) {
+        this.proAmount = proAmount;
+    }
+
+    public Date getProMfd() {
         return proMfd;
     }
 
-    public void setProMfd(java.sql.Date proMfd) {
+    public void setProMfd(Date proMfd) {
         this.proMfd = proMfd;
     }
-
 
     public String getProPathImg() {
         return proPathImg;
@@ -94,11 +102,27 @@ public class Product {
         this.brand = brand;
     }
 
-    public List<sit.int221.ppclothes.models.Item> getItem() {
-        return Item;
+    public List<Prowithcolors> getProwithcolorList() {
+        return prowithcolorList;
     }
 
-    public void setItem(List<sit.int221.ppclothes.models.Item> item) {
-        Item = item;
+    public void setProwithcolorList(List<Prowithcolors> prowithcolorList) {
+        this.prowithcolorList = prowithcolorList;
+    }
+
+    public List<CartDetails> getCartDetailsList() {
+        return cartDetailsList;
+    }
+
+    public void setCartDetailsList(List<CartDetails> cartDetailsList) {
+        this.cartDetailsList = cartDetailsList;
+    }
+
+    public List<ReceiptDetails> getReceiptDetailsList() {
+        return ReceiptDetailsList;
+    }
+
+    public void setReceiptDetailsList(List<ReceiptDetails> receiptDetailsList) {
+        ReceiptDetailsList = receiptDetailsList;
     }
 }
