@@ -24,11 +24,12 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<ReceiptDetails> ReceiptDetailsList;
 
-    public Product(long idPro, String proName, String proDescript, double proPrice, Date proMfd, String proPathImg, Brand brand) {
+    public Product(long idPro, String proName, String proDescript, double proPrice, long proAmount, Date proMfd, String proPathImg, Brand brand) {
         this.idPro = idPro;
         this.proName = proName;
         this.proDescript = proDescript;
         this.proPrice = proPrice;
+        this.proAmount = proAmount;
         this.proMfd = proMfd;
         this.proPathImg = proPathImg;
         this.brand = brand;

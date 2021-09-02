@@ -45,7 +45,7 @@ public class ProductController {
         }else if(repoPro.findByName(newproduct.getProName()) != null){
             throw new ProductException(ExceptionRepo.ERROR_CODE.PRODUCT_NAME_ALREADY_EXIST,"Name : "+newproduct.getProName() + " Have Already");
         }
-        Product Productnoitem = new Product(newproduct.getIdPro(), newproduct.getProName(),newproduct.getProDescript(),newproduct.getProPrice(),newproduct.getProMfd(),newproduct.getProPathImg(),newproduct.getBrand());
+        Product Productnoitem = new Product(newproduct.getIdPro(), newproduct.getProName(),newproduct.getProDescript(),newproduct.getProPrice(),newproduct.getProAmount(),newproduct.getProMfd(),newproduct.getProPathImg(),newproduct.getBrand());
         repoPro.save(Productnoitem);
         List<Prowithcolors> prowithcolors = newproduct.getProwithcolorList();
         for(Prowithcolors prowithcolors1 : prowithcolors){
@@ -66,7 +66,7 @@ public class ProductController {
         }else if(imageFile == null){
             throw new ProductException(ExceptionRepo.ERROR_CODE.ICECREAM_IMAGE_NULL,"Can't add. Product id: "+newproduct.getIdPro());
         }else newproduct.setProPathImg(storageService.store(imageFile,newproduct.getIdPro()));
-        Product Productitem = new Product(newproduct.getIdPro(), newproduct.getProName(),newproduct.getProDescript(),newproduct.getProPrice(),newproduct.getProMfd(),newproduct.getProPathImg(),newproduct.getBrand());
+        Product Productitem = new Product(newproduct.getIdPro(), newproduct.getProName(),newproduct.getProDescript(),newproduct.getProPrice(),newproduct.getProAmount(),newproduct.getProMfd(),newproduct.getProPathImg(),newproduct.getBrand());
         repoPro.save(Productitem);
         List<Prowithcolors> prowithcolors = newproduct.getProwithcolorList();
         for(Prowithcolors prowithcolors1 : prowithcolors){
@@ -127,7 +127,7 @@ public class ProductController {
         for(Prowithcolors prowithcolors1 : beforeEditProduct){
             repoProwithcolos.deleteById(prowithcolors1.getIdProwithcolors());
         }
-        Product Productitem = new Product(editProduct.getIdPro(), editProduct.getProName(),editProduct.getProDescript(),editProduct.getProPrice(),editProduct.getProMfd(),editProduct.getProPathImg(),editProduct.getBrand());
+        Product Productitem = new Product(editProduct.getIdPro(), editProduct.getProName(),editProduct.getProDescript(),editProduct.getProPrice(),editProduct.getProAmount(),editProduct.getProMfd(),editProduct.getProPathImg(),editProduct.getBrand());
         repoPro.save(Productitem);
         List<Prowithcolors> prowithcolors = editProduct.getProwithcolorList();
         for(Prowithcolors prowithcolors2 : prowithcolors){
