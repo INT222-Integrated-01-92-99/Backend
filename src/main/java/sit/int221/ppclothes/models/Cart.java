@@ -11,8 +11,10 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idCart;
+    @JsonBackReference
     @OneToOne(mappedBy = "cart")
     private Account account;
+    @JsonBackReference
     @OneToMany(mappedBy = "cart")
     private List<CartDetails> cartDetails;
 

@@ -111,19 +111,4 @@ public class Product {
         this.prowithcolorList = prowithcolorList;
     }
 
-    public List<CartDetails> getCartDetailsList() {
-        return cartDetailsList;
-    }
-
-    public void setCartDetailsList(List<CartDetails> cartDetailsList) {
-        this.cartDetailsList = cartDetailsList;
-    }
-
-    public List<ReceiptDetails> getReceiptDetailsList() {
-        return ReceiptDetailsList;
-    }
-
-    public void setReceiptDetailsList(List<ReceiptDetails> receiptDetailsList) {
-        ReceiptDetailsList = receiptDetailsList;
-    }
 }

@@ -19,9 +19,11 @@ public class Account {
     private String accLname;
     private String accPhone;
     private String accAddress;
+    @JsonBackReference
     @OneToOne
     @JoinColumn(name = "idCart", referencedColumnName = "idCart")
     private Cart cart;
+    @JsonBackReference
     @OneToMany(mappedBy = "account")
     private List<Receipt> receiptList;
 
