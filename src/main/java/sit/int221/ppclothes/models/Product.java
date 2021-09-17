@@ -1,5 +1,9 @@
 package sit.int221.ppclothes.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
@@ -18,11 +22,14 @@ public class Product {
     @JoinColumn(name = "idBrand")
     private Brand brand;
     @OneToMany(mappedBy = "product")
-    private List<Prowithcolors> prowithcolorList;
+    private List<Prowithcolors> prowithcolor;
     @OneToMany(mappedBy = "product")
+    @JsonIgnore
     private List<CartDetails> cartDetailsList;
     @OneToMany(mappedBy = "product")
-    private List<ReceiptDetails> ReceiptDetailsList;
+    @JsonIgnore
+    private List<ReceiptDetails> receiptDetailsList;
+
 
     public Product(long idPro, String proName, String proDescript, double proPrice, long proAmount, Date proMfd, String proPathImg, Brand brand) {
         this.idPro = idPro;
@@ -103,12 +110,27 @@ public class Product {
         this.brand = brand;
     }
 
-    public List<Prowithcolors> getProwithcolorList() {
-        return prowithcolorList;
+    public List<Prowithcolors> getProwithcolor() {
+        return prowithcolor;
     }
 
-    public void setProwithcolorList(List<Prowithcolors> prowithcolorList) {
-        this.prowithcolorList = prowithcolorList;
+    public void setProwithcolor(List<Prowithcolors> prowithcolor) {
+        this.prowithcolor = prowithcolor;
     }
 
+    public List<CartDetails> getCartDetailsList() {
+        return cartDetailsList;
+    }
+
+    public void setCartDetailsList(List<CartDetails> cartDetailsList) {
+        this.cartDetailsList = cartDetailsList;
+    }
+
+    public List<ReceiptDetails> getReceiptDetailsList() {
+        return receiptDetailsList;
+    }
+
+    public void setReceiptDetailsList(List<ReceiptDetails> receiptDetailsList) {
+        this.receiptDetailsList = receiptDetailsList;
+    }
 }

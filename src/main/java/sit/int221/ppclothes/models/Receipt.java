@@ -15,12 +15,10 @@ public class Receipt {
     @ManyToOne
     @JoinColumn(name = "idAccount")
     private Account account;
-    @JsonBackReference
     @OneToMany(mappedBy = "receipt")
     private List<ReceiptDetails> receiptDetailsList;
 
-    public Receipt(long idReceipt, Account account, List<ReceiptDetails> receiptDetailsList) {
-        this.idReceipt = idReceipt;
+    public Receipt(Account account, List<ReceiptDetails> receiptDetailsList) {
         this.account = account;
         this.receiptDetailsList = receiptDetailsList;
     }

@@ -11,17 +11,16 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idCart;
-    @JsonBackReference
-    @OneToOne(mappedBy = "cart")
-    private Account account;
-    @JsonBackReference
     @OneToMany(mappedBy = "cart")
     private List<CartDetails> cartDetails;
 
-    public Cart(long idCart, Account account, List<CartDetails> cartDetails) {
+    public Cart(long idCart, List<CartDetails> cartDetails) {
         this.idCart = idCart;
-        this.account = account;
         this.cartDetails = cartDetails;
+    }
+
+    public Cart(long idCart) {
+        this.idCart = idCart;
     }
 
     public Cart() {
@@ -34,14 +33,6 @@ public class Cart {
 
     public void setIdCart(long idCart) {
         this.idCart = idCart;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
     }
 
     public List<CartDetails> getCartDetails() {

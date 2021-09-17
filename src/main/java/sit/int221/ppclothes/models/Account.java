@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "account")
@@ -19,15 +18,13 @@ public class Account {
     private String accLname;
     private String accPhone;
     private String accAddress;
-    @JsonBackReference
-    @OneToOne
+    @OneToOne(optional = false)
     @JoinColumn(name = "idCart", referencedColumnName = "idCart")
     private Cart cart;
-    @JsonBackReference
     @OneToMany(mappedBy = "account")
     private List<Receipt> receiptList;
 
-    public Account(long idAccount, String accUsername, String accPass, String accRole, String accFname, String accLname, String accPhone, String accAddress, Cart cart, List<Receipt> receiptList) {
+    public Account(long idAccount, String accUsername, String accPass, String accRole, String accFname, String accLname, String accPhone, String accAddress) {
         this.idAccount = idAccount;
         this.accUsername = accUsername;
         this.accPass = accPass;
@@ -36,8 +33,6 @@ public class Account {
         this.accLname = accLname;
         this.accPhone = accPhone;
         this.accAddress = accAddress;
-        this.cart = cart;
-        this.receiptList = receiptList;
     }
 
     public Account() {

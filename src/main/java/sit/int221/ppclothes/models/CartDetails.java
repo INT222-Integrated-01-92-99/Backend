@@ -1,6 +1,7 @@
 package sit.int221.ppclothes.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -10,19 +11,20 @@ public class CartDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idCartDetail;
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "idPro")
     private Product product;
-    @JsonBackReference
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "idCart")
     private Cart cart;
+    @JoinColumn(name = "piecePerOnePro")
+    private long piecePerOnePro;
 
-    public CartDetails(long idCartDetail, Product product, Cart cart) {
-        this.idCartDetail = idCartDetail;
+    public CartDetails(Product product, Cart cart, long piecePerOnePro) {
         this.product = product;
         this.cart = cart;
+        this.piecePerOnePro = piecePerOnePro;
     }
 
     public CartDetails() {
@@ -51,5 +53,13 @@ public class CartDetails {
 
     public void setCart(Cart cart) {
         this.cart = cart;
+    }
+
+    public long getPiecePerOnePro() {
+        return piecePerOnePro;
+    }
+
+    public void setPiecePerOnePro(long piecePerOnePro) {
+        this.piecePerOnePro = piecePerOnePro;
     }
 }

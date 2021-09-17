@@ -6,4 +6,7 @@ import sit.int221.ppclothes.models.Account;
 
 public interface repoAccount extends JpaRepository<Account,Long>{
 
+    @Query(value = "SELECT cart FROM Account WHERE idAccount = ?1")
+    Long getidcart(long idacc);
+
 }

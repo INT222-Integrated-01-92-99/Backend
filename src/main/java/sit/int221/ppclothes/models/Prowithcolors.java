@@ -1,6 +1,8 @@
 package sit.int221.ppclothes.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
@@ -11,20 +13,19 @@ public class Prowithcolors {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idProWithCol")
     private long idprowithcolors;
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(name="idColor")
     private Color color;
-    @JsonBackReference
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name="idPro")
     private Product product;
 
-    public long getIdProwithcolors() {
+    public long getIdprowithcolors() {
         return idprowithcolors;
     }
 
-    public void setIdProwithcolors(long idprowithcolors) {
+    public void setIdprowithcolors(long idprowithcolors) {
         this.idprowithcolors = idprowithcolors;
     }
 

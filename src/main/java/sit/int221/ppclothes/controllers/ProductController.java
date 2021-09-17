@@ -27,8 +27,6 @@ public class ProductController {
     @Autowired
     private repoProwithcolos repoProwithcolos;
     @Autowired
-    private repoBrand repoBrand;
-    @Autowired
     StorageService storageService;
 
     @GetMapping("/product")
@@ -47,7 +45,7 @@ public class ProductController {
         }
         Product Productnoitem = new Product(newproduct.getIdPro(), newproduct.getProName(),newproduct.getProDescript(),newproduct.getProPrice(),newproduct.getProAmount(),newproduct.getProMfd(),newproduct.getProPathImg(),newproduct.getBrand());
         repoPro.save(Productnoitem);
-        List<Prowithcolors> prowithcolors = newproduct.getProwithcolorList();
+        List<Prowithcolors> prowithcolors = newproduct.getProwithcolor();
         for(Prowithcolors prowithcolors1 : prowithcolors){
             prowithcolors1.setProduct(newproduct);
             repoProwithcolos.save(prowithcolors1);
@@ -68,7 +66,7 @@ public class ProductController {
         }else newproduct.setProPathImg(storageService.store(imageFile,newproduct.getIdPro()));
         Product Productitem = new Product(newproduct.getIdPro(), newproduct.getProName(),newproduct.getProDescript(),newproduct.getProPrice(),newproduct.getProAmount(),newproduct.getProMfd(),newproduct.getProPathImg(),newproduct.getBrand());
         repoPro.save(Productitem);
-        List<Prowithcolors> prowithcolors = newproduct.getProwithcolorList();
+        List<Prowithcolors> prowithcolors = newproduct.getProwithcolor();
         for(Prowithcolors prowithcolors1 : prowithcolors){
             prowithcolors1.setProduct(newproduct);
             repoProwithcolos.save(prowithcolors1);
@@ -82,9 +80,9 @@ public class ProductController {
         if(product == null){
             throw new ProductException(ExceptionRepo.ERROR_CODE.PRODUCT_DOES_NOT_EXIST,"Can't delete. Id : "+idPro + " does not exist.");
         }else storageService.delete(product.getProPathImg());
-        List<Prowithcolors> beforeEditProduct = product.getProwithcolorList();
+        List<Prowithcolors> beforeEditProduct = product.getProwithcolor();
         for(Prowithcolors prowithcolors : beforeEditProduct){
-            repoProwithcolos.deleteById(prowithcolors.getIdProwithcolors());
+            repoProwithcolos.deleteById(prowithcolors.getIdprowithcolors());
         }
         repoPro.deleteById(idPro);
     }
@@ -98,11 +96,11 @@ public class ProductController {
         }else if(productName != null && productId.getIdPro() != productName.getIdPro()){
             throw new ProductException(ExceptionRepo.ERROR_CODE.PRODUCT_NAME_ALREADY_EXIST,"Can't edit . Name : "+editProduct.getProName() + " already exist.");
         }
-        List<Prowithcolors> beforeEditProduct = productId.getProwithcolorList();
+        List<Prowithcolors> beforeEditProduct = productId.getProwithcolor();
         for(Prowithcolors prowithcolors1 : beforeEditProduct){
-            repoProwithcolos.deleteById(prowithcolors1.getIdProwithcolors());
+            repoProwithcolos.deleteById(prowithcolors1.getIdprowithcolors());
         }
-        List<Prowithcolors> prowithcolors = editProduct.getProwithcolorList();
+        List<Prowithcolors> prowithcolors = editProduct.getProwithcolor();
         for(Prowithcolors prowithcolors2 : prowithcolors){
             prowithcolors2.setProduct(editProduct);
             repoProwithcolos.save(prowithcolors2);
@@ -123,13 +121,13 @@ public class ProductController {
         }
         storageService.delete(productId.getProPathImg());
         editProduct.setProPathImg(storageService.store(imageFile,editProduct.getIdPro()));
-        List<Prowithcolors> beforeEditProduct = productId.getProwithcolorList();
+        List<Prowithcolors> beforeEditProduct = productId.getProwithcolor();
         for(Prowithcolors prowithcolors1 : beforeEditProduct){
-            repoProwithcolos.deleteById(prowithcolors1.getIdProwithcolors());
+            repoProwithcolos.deleteById(prowithcolors1.getIdprowithcolors());
         }
         Product Productitem = new Product(editProduct.getIdPro(), editProduct.getProName(),editProduct.getProDescript(),editProduct.getProPrice(),editProduct.getProAmount(),editProduct.getProMfd(),editProduct.getProPathImg(),editProduct.getBrand());
         repoPro.save(Productitem);
-        List<Prowithcolors> prowithcolors = editProduct.getProwithcolorList();
+        List<Prowithcolors> prowithcolors = editProduct.getProwithcolor();
         for(Prowithcolors prowithcolors2 : prowithcolors){
             prowithcolors2.setProduct(editProduct);
             repoProwithcolos.save(prowithcolors2);

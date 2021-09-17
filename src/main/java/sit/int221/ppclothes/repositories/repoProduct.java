@@ -19,4 +19,6 @@ public interface repoProduct extends JpaRepository<Product,Long> {
     @Query(value = "SELECT P FROM Product P Where P.proName LIKE %?1% ")
     List<Product> searchwithoutbrand(String proName);
 
+    @Query(value = "SELECT proAmount FROM Product Where idPro = ?1")
+    long amount(long idpro);
 }

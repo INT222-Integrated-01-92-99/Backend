@@ -1,5 +1,6 @@
 package sit.int221.ppclothes.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,8 +16,8 @@ public class Color {
     private String colorName;
     @Column(name = "colorCode")
     private String colorCode;
-    @JsonBackReference
     @OneToMany(mappedBy = "color")
+    @JsonIgnore
     private List<Prowithcolors> prowithcolorsList;
 
     public long getIdColor() {
@@ -27,7 +28,6 @@ public class Color {
         this.idColor = idColor;
     }
 
-
     public String getColorName() {
         return colorName;
     }
@@ -35,7 +35,6 @@ public class Color {
     public void setColorName(String colorName) {
         this.colorName = colorName;
     }
-
 
     public String getColorCode() {
         return colorCode;
@@ -45,11 +44,11 @@ public class Color {
         this.colorCode = colorCode;
     }
 
-    public List<Prowithcolors> getItemList() {
+    public List<Prowithcolors> getProwithcolorsList() {
         return prowithcolorsList;
     }
 
-    public void setItemList(List<Prowithcolors> prowithcolorsList) {
+    public void setProwithcolorsList(List<Prowithcolors> prowithcolorsList) {
         this.prowithcolorsList = prowithcolorsList;
     }
 }

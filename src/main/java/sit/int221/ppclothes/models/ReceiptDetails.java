@@ -1,6 +1,7 @@
 package sit.int221.ppclothes.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
@@ -11,11 +12,9 @@ public class ReceiptDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idReceiptDetails;
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "idPro")
     private Product product;
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "idReceipt")
     private Receipt receipt;
