@@ -5,9 +5,12 @@ import java.time.LocalDateTime;
 public class ExceptionRepo {
 
     public static enum ERROR_CODE {
-        PRODUCT_DOES_NOT_EXIST(101),PRODUCT_ALREADY_EXIST(102),
-        PRODUCT_ID_ALREADY_EXIST(103), PRODUCT_NAME_ALREADY_EXIST(104),
-        ICECREAM_IMAGE_NULL(105);
+        PRODUCT_DOES_NOT_EXIST(101),
+        PRODUCT_ALREADY_EXIST(102),
+        PRODUCT_ID_ALREADY_EXIST(103),
+        PRODUCT_NAME_ALREADY_EXIST(104),
+        AMOUNT_VALUE(105),
+        ICECREAM_IMAGE_NULL(106);
         private int errorValue;
 
         ERROR_CODE(int errorValue){

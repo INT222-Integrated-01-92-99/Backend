@@ -1,10 +1,10 @@
 package sit.int221.ppclothes.exceptions;
 
-public class ProductException extends RuntimeException{
+public class CartException extends RuntimeException{
 
     ExceptionRepo.ERROR_CODE error_code;
 
-    public ProductException(ExceptionRepo.ERROR_CODE error_code,String message){
+    public CartException(ExceptionRepo.ERROR_CODE error_code,String message){
         super(message);
         this.error_code = error_code;
     }

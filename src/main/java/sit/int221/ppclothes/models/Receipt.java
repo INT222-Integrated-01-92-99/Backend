@@ -11,7 +11,6 @@ public class Receipt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idReceipt;
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "idAccount")
     private Account account;

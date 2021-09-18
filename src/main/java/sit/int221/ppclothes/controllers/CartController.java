@@ -1,6 +1,8 @@
 package sit.int221.ppclothes.controllers;
 
 import org.springframework.web.bind.annotation.*;
+import sit.int221.ppclothes.exceptions.CartException;
+import sit.int221.ppclothes.exceptions.ExceptionRepo;
 import sit.int221.ppclothes.models.*;
 import sit.int221.ppclothes.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,24 +33,18 @@ public class CartController {
         return cart;
     }
 
-    public void ChangeProductAmount(long amount,long idpro){
-        long newamount = 0;
-        if(amount<0){
-            newamount = repoProduct.amount(idpro) - Math.abs(amount) ;
-        }else{
-            newamount = repoProduct.amount(idpro) + amount;
+    public void checkamount(long amount,long idpro){
+        long amountofpro = repoProduct.amount(idpro);
+        if(amount > amountofpro){
+            throw new CartException(ExceptionRepo.ERROR_CODE.AMOUNT_VALUE,"Your amount more than stock.");
+        }else if(amount <= 0){
+            throw new CartException(ExceptionRepo.ERROR_CODE.AMOUNT_VALUE,"Your amount less than 0.");
         }
-        if(newamount<0){
-            return;
-        }
-        Product newproduct = repoProduct.findById(idpro).orElse(null);
-        newproduct.setProAmount(newamount);
-        repoProduct.save(newproduct);
     }
 
     @PostMapping(value = "/additemtocart")
     public CartDetails additemtocart(@RequestParam(name = "idpro") long idpro,@RequestParam(name = "amount") long amount,@RequestParam(name = "idcart") long idcart){
-        ChangeProductAmount(0 - amount,idpro);
+        checkamount(amount,idpro);
         Cart cart = repoCart.findById(idcart).orElse(null);
         Product product = repoProduct.findById(idpro).orElse(null);
         CartDetails newitemincart = new CartDetails(product,cart,amount);
@@ -58,18 +54,14 @@ public class CartController {
 
     @PutMapping("/edititemincart")
     public CartDetails editamountitemincart(@RequestParam(name = "idpro") long idpro,@RequestParam(name = "amount") long amount,@RequestParam(name = "idcartdetail") long idcartdetail){
+        checkamount(amount,idpro);
         CartDetails cartDetails = repoCartDetails.findById(idcartdetail).orElse(null);
-        long diffamount = cartDetails.getPiecePerOnePro()-amount;
         cartDetails.setPiecePerOnePro(amount);
-        ChangeProductAmount(diffamount,idpro);
         return repoCartDetails.save(cartDetails);
     }
 
     @DeleteMapping("/deleteitemincart")
-    public void deleteitemincart(@RequestParam(name = "idcartdetail") long idcartdetail,@RequestParam(name = "idpro") long idpro){
-        CartDetails cartDetails = repoCartDetails.findById(idcartdetail).orElse(null);
-        long returnamount = cartDetails.getPiecePerOnePro();
-        ChangeProductAmount(returnamount,idpro);
+    public void deleteitemincart(@RequestParam(name = "idcartdetail") long idcartdetail){
         repoCartDetails.deleteById(idcartdetail);
     }
 
