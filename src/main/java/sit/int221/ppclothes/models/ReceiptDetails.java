@@ -21,18 +21,17 @@ public class ReceiptDetails {
     @JoinColumn(name = "idReceipt")
     private Receipt receipt;
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "idColor")
-    private Color idColor;
+    private Color color;
     private String proName;
     private double proPrice;
     private long proPerPiece;
 
-    public ReceiptDetails(long idReceiptDetails, Product product, Receipt receipt, Color idColor, String proName, double proPrice, long proPerPiece) {
+    public ReceiptDetails(long idReceiptDetails, Product product, Receipt receipt, Color color, String proName, double proPrice, long proPerPiece) {
         this.idReceiptDetails = idReceiptDetails;
         this.product = product;
         this.receipt = receipt;
-        this.idColor = idColor;
+        this.color = color;
         this.proName = proName;
         this.proPrice = proPrice;
         this.proPerPiece = proPerPiece;
@@ -65,12 +64,12 @@ public class ReceiptDetails {
         this.receipt = receipt;
     }
 
-    public Color getIdColor() {
-        return idColor;
+    public Color getColor() {
+        return color;
     }
 
-    public void setIdColor(Color idColor) {
-        this.idColor = idColor;
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     public String getProName() {

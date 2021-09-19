@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -16,6 +18,7 @@ public class Receipt {
     @JsonIgnore
     @JoinColumn(name = "idAccount")
     private Account account;
+    private LocalDateTime datePurchase;
     @OneToMany(mappedBy = "receipt")
     private List<ReceiptDetails> receiptDetailsList;
 
@@ -42,6 +45,14 @@ public class Receipt {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public LocalDateTime getDatePurchase() {
+        return datePurchase;
+    }
+
+    public void setDatePurchase(LocalDateTime datePurchase) {
+        this.datePurchase = datePurchase;
     }
 
     public List<ReceiptDetails> getReceiptDetailsList() {

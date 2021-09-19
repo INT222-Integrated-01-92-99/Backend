@@ -19,10 +19,10 @@ public class Color {
     @OneToMany(mappedBy = "color")
     @JsonIgnore
     private List<Prowithcolors> prowithcolorsList;
-    @OneToMany
+    @OneToMany(mappedBy = "color")
     @JsonIgnore
     private List<CartDetails> cartDetails;
-    @OneToMany
+    @OneToMany(mappedBy = "color")
     @JsonIgnore
     private List<ReceiptDetails> receiptDetails;
 

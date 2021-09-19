@@ -18,6 +18,8 @@ public class CartController {
     @Autowired
     private repoProduct repoProduct;
     @Autowired
+    private repoColor repoColor;
+    @Autowired
     private repoReceipt repoReceipt;
     @Autowired
     private repoReceiptDetails repoReceiptDetails;
@@ -43,13 +45,13 @@ public class CartController {
     }
 
     @PostMapping(value = "/additemtocart")
-    public CartDetails additemtocart(@RequestParam(name = "idpro") long idpro,@RequestParam(name = "amount") long amount,@RequestParam(name = "idcart") long idcart){
+    public CartDetails additemtocart(@RequestParam(name = "idpro") long idpro,@RequestParam(name = "amount") long amount,@RequestParam(name = "idcart") long idcart,@RequestParam(name = "idcolor") long idcolor){
         checkamount(amount,idpro);
         Cart cart = repoCart.findById(idcart).orElse(null);
         Product product = repoProduct.findById(idpro).orElse(null);
-        //CartDetails newitemincart = new CartDetails(product,cart,amount);
-        //return repoCartDetails.save(newitemincart);
-        return null;
+        Color color = repoColor.findById(idcolor).orElse(null);
+        CartDetails newitemincart = new CartDetails(product,cart,amount,color);
+        return repoCartDetails.save(newitemincart);
     }
 
 
