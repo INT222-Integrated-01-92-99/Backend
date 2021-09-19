@@ -47,8 +47,9 @@ public class CartController {
         checkamount(amount,idpro);
         Cart cart = repoCart.findById(idcart).orElse(null);
         Product product = repoProduct.findById(idpro).orElse(null);
-        CartDetails newitemincart = new CartDetails(product,cart,amount);
-        return repoCartDetails.save(newitemincart);
+        //CartDetails newitemincart = new CartDetails(product,cart,amount);
+        //return repoCartDetails.save(newitemincart);
+        return null;
     }
 
 
@@ -65,10 +66,9 @@ public class CartController {
         repoCartDetails.deleteById(idcartdetail);
     }
 
-//    @GetMapping("/purchase")
-//    public List<ReceiptDetails> purchase(@RequestParam(name = "idcart") long idcart){
-//        Cart cart = repoCart.findById(idcart).orElse(null);
-//        return null;
-//    }
+    @GetMapping("/purchase")
+    public List<ReceiptDetails> purchase(@RequestParam(name = "idcart") long idcart){
+            return null;
+    }
 
 }

@@ -13,24 +13,29 @@ public class ReceiptDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idReceiptDetails;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "idPro")
     private Product product;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "idReceipt")
     private Receipt receipt;
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "idColor")
+    private Color idColor;
     private String proName;
     private double proPrice;
     private long proPerPiece;
-    private String status;
 
-    public ReceiptDetails(long idReceiptDetails, Product product, Receipt receipt, String proName, double proPrice, long proPerPiece, String status) {
+    public ReceiptDetails(long idReceiptDetails, Product product, Receipt receipt, Color idColor, String proName, double proPrice, long proPerPiece) {
         this.idReceiptDetails = idReceiptDetails;
         this.product = product;
         this.receipt = receipt;
+        this.idColor = idColor;
         this.proName = proName;
         this.proPrice = proPrice;
         this.proPerPiece = proPerPiece;
-        this.status = status;
     }
 
     public ReceiptDetails() {
@@ -60,6 +65,14 @@ public class ReceiptDetails {
         this.receipt = receipt;
     }
 
+    public Color getIdColor() {
+        return idColor;
+    }
+
+    public void setIdColor(Color idColor) {
+        this.idColor = idColor;
+    }
+
     public String getProName() {
         return proName;
     }
@@ -82,13 +95,5 @@ public class ReceiptDetails {
 
     public void setProPerPiece(long proPerPiece) {
         this.proPerPiece = proPerPiece;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }

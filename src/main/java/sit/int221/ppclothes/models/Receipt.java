@@ -1,6 +1,7 @@
 package sit.int221.ppclothes.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
@@ -12,6 +13,7 @@ public class Receipt {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idReceipt;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "idAccount")
     private Account account;
     @OneToMany(mappedBy = "receipt")

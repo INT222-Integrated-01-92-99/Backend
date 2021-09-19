@@ -19,6 +19,12 @@ public class Color {
     @OneToMany(mappedBy = "color")
     @JsonIgnore
     private List<Prowithcolors> prowithcolorsList;
+    @OneToMany
+    @JsonIgnore
+    private List<CartDetails> cartDetails;
+    @OneToMany
+    @JsonIgnore
+    private List<ReceiptDetails> receiptDetails;
 
     public long getIdColor() {
         return idColor;
@@ -50,5 +56,21 @@ public class Color {
 
     public void setProwithcolorsList(List<Prowithcolors> prowithcolorsList) {
         this.prowithcolorsList = prowithcolorsList;
+    }
+
+    public List<CartDetails> getCartDetails() {
+        return cartDetails;
+    }
+
+    public void setCartDetails(List<CartDetails> cartDetails) {
+        this.cartDetails = cartDetails;
+    }
+
+    public List<ReceiptDetails> getReceiptDetails() {
+        return receiptDetails;
+    }
+
+    public void setReceiptDetails(List<ReceiptDetails> receiptDetails) {
+        this.receiptDetails = receiptDetails;
     }
 }
