@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8081")
 public class CartController {
     @Autowired
     private repoCart repoCart;
@@ -96,9 +97,8 @@ public class CartController {
         Account account = repoAccount.findById(idacc).orElse(null);
         LocalDateTime time = LocalDateTime.now();
         Receipt receipt = new Receipt(account,time);
-        repoReceipt.save(receipt);
         List<CartDetails> cartDetailsList = repoCartDetails.listcartdetailByidcart(idcart);
-
+        repoReceipt.save(receipt);
         for(CartDetails cartDetailperline : cartDetailsList){
             long idpro = cartDetailperline.getProduct().getIdPro();
             String proname = cartDetailperline.getProduct().getProName();

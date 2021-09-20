@@ -1,5 +1,6 @@
 package sit.int221.ppclothes.controllers;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestParam;
 import sit.int221.ppclothes.models.Brand;
 import sit.int221.ppclothes.repositories.repoBrand;
@@ -10,6 +11,7 @@ import java.util.List;
 
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8081")
 public class BrandController {
     @Autowired
     private repoBrand repoBrand;

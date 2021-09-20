@@ -1,5 +1,6 @@
 package sit.int221.ppclothes.controllers;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import sit.int221.ppclothes.models.Receipt;
 import sit.int221.ppclothes.repositories.repoReceipt;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8081")
 public class ReceiptController {
     @Autowired
     private repoReceipt repoReceipt;

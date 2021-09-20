@@ -16,6 +16,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8081")
 public class ImageController {
     final StorageService storageService;
 
