@@ -18,16 +18,16 @@ public class CartDetails {
     @JsonIgnore
     @JoinColumn(name = "idCart")
     private Cart cart;
-    @JoinColumn(name = "piecePerOnePro")
-    private long piecePerOnePro;
+    @JoinColumn(name = "proPerPiece")
+    private long proPerPiece;
     @ManyToOne
     @JoinColumn(name = "idColor")
     private Color color;
 
-    public CartDetails(Product product, Cart cart, long piecePerOnePro, Color color) {
+    public CartDetails(Product product, Cart cart, long proPerPiece, Color color) {
         this.product = product;
         this.cart = cart;
-        this.piecePerOnePro = piecePerOnePro;
+        this.proPerPiece = proPerPiece;
         this.color = color;
     }
 
@@ -59,12 +59,12 @@ public class CartDetails {
         this.cart = cart;
     }
 
-    public long getPiecePerOnePro() {
-        return piecePerOnePro;
+    public long getProPerPiece() {
+        return proPerPiece;
     }
 
-    public void setPiecePerOnePro(long piecePerOnePro) {
-        this.piecePerOnePro = piecePerOnePro;
+    public void setProPerPiece(long proPerPiece) {
+        this.proPerPiece = proPerPiece;
     }
 
     public Color getColor() {

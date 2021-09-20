@@ -22,9 +22,9 @@ public class Receipt {
     @OneToMany(mappedBy = "receipt")
     private List<ReceiptDetails> receiptDetailsList;
 
-    public Receipt(Account account, List<ReceiptDetails> receiptDetailsList) {
+    public Receipt(Account account, LocalDateTime datePurchase) {
         this.account = account;
-        this.receiptDetailsList = receiptDetailsList;
+        this.datePurchase = datePurchase;
     }
 
     public Receipt() {

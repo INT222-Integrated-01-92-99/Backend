@@ -7,6 +7,7 @@ import sit.int221.ppclothes.models.*;
 import sit.int221.ppclothes.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -23,6 +24,8 @@ public class CartController {
     private repoReceipt repoReceipt;
     @Autowired
     private repoReceiptDetails repoReceiptDetails;
+    @Autowired
+    private repoAccount repoAccount;
 
     @GetMapping("/cart")
     public List<Cart> CartAll(){
@@ -35,18 +38,36 @@ public class CartController {
         return cart;
     }
 
-    public void checkamount(long amount,long idpro){
+    public void checkamount(long amount,long idpro,long idcart,long idcartdetail){
         long amountofpro = repoProduct.amount(idpro);
         if(amount > amountofpro){
             throw new CartException(ExceptionRepo.ERROR_CODE.AMOUNT_VALUE,"Your amount more than stock.");
         }else if(amount <= 0){
             throw new CartException(ExceptionRepo.ERROR_CODE.AMOUNT_VALUE,"Your amount less than 0.");
         }
+        if(repoCartDetails.getTotalInCart(idcart,idpro) != null){
+            if(repoCartDetails.findById(idcartdetail).orElse(null) == null){
+                long totalAmountInCart = repoCartDetails.getTotalInCart(idcart,idpro);
+                if(totalAmountInCart+amount > amountofpro){
+                    throw new CartException(ExceptionRepo.ERROR_CODE.AMOUNT_VALUE,"Your total amount in cart more than stock");
+                }else if(totalAmountInCart+amount < 0){
+                    throw new CartException(ExceptionRepo.ERROR_CODE.AMOUNT_VALUE,"Your amount less than 0.");
+                }
+                return;
+            }else {
+                long totalAmountInCart = repoCartDetails.getTotalInCartWithoutsomeId(idcart, idpro,idcartdetail);
+                if (totalAmountInCart + amount > amountofpro) {
+                    throw new CartException(ExceptionRepo.ERROR_CODE.AMOUNT_VALUE, "Your total amount in cart more than stock");
+                } else if (totalAmountInCart + amount < 0) {
+                    throw new CartException(ExceptionRepo.ERROR_CODE.AMOUNT_VALUE, "Your amount less than 0.");
+                }
+            }
+        }
     }
 
     @PostMapping(value = "/additemtocart")
     public CartDetails additemtocart(@RequestParam(name = "idpro") long idpro,@RequestParam(name = "amount") long amount,@RequestParam(name = "idcart") long idcart,@RequestParam(name = "idcolor") long idcolor){
-        checkamount(amount,idpro);
+        checkamount(amount,idpro,idcart,0);
         Cart cart = repoCart.findById(idcart).orElse(null);
         Product product = repoProduct.findById(idpro).orElse(null);
         Color color = repoColor.findById(idcolor).orElse(null);
@@ -57,9 +78,10 @@ public class CartController {
 
     @PutMapping("/edititemincart")
     public CartDetails editamountitemincart(@RequestParam(name = "idpro") long idpro,@RequestParam(name = "amount") long amount,@RequestParam(name = "idcartdetail") long idcartdetail){
-        checkamount(amount,idpro);
+        long idcart = repoCartDetails.getidcart(idcartdetail);
+        checkamount(amount,idpro,idcart,idcartdetail);
         CartDetails cartDetails = repoCartDetails.findById(idcartdetail).orElse(null);
-        cartDetails.setPiecePerOnePro(amount);
+        cartDetails.setProPerPiece(amount);
         return repoCartDetails.save(cartDetails);
     }
 
@@ -68,9 +90,37 @@ public class CartController {
         repoCartDetails.deleteById(idcartdetail);
     }
 
-    @GetMapping("/purchase")
-    public List<ReceiptDetails> purchase(@RequestParam(name = "idcart") long idcart){
-            return null;
+    @PostMapping("/purchase")
+    public String purchase(@RequestParam(name = "idcart") long idcart){
+        long idacc = repoAccount.getidacc(idcart);
+        Account account = repoAccount.findById(idacc).orElse(null);
+        LocalDateTime time = LocalDateTime.now();
+        Receipt receipt = new Receipt(account,time);
+        repoReceipt.save(receipt);
+        List<CartDetails> cartDetailsList = repoCartDetails.listcartdetailByidcart(idcart);
+
+        for(CartDetails cartDetailperline : cartDetailsList){
+            long idpro = cartDetailperline.getProduct().getIdPro();
+            String proname = cartDetailperline.getProduct().getProName();
+            String brandname = cartDetailperline.getProduct().getBrand().getBrandName();
+            Double proprice = cartDetailperline.getProduct().getProPrice();
+            long properpiece = cartDetailperline.getProPerPiece();
+            Color color = cartDetailperline.getColor();
+            ReceiptDetails newreceiptDetail = new ReceiptDetails(receipt,color,proname,brandname,proprice,properpiece);
+            repoReceiptDetails.save(newreceiptDetail);
+            repoCartDetails.deleteById(cartDetailperline.getIdCartDetail());
+            long amountofpro = repoProduct.amount(idpro);
+            long newamount = amountofpro - properpiece;
+            Product productNewAmount = repoProduct.findById(idpro).orElse(null);
+            productNewAmount.setProAmount(newamount);
+            repoProduct.save(productNewAmount);
+        }
+
+        return "Success";
     }
 
+    @GetMapping("/test")
+    public List<CartDetails> test(@RequestParam(name = "idcart") long idcart){
+        return repoCartDetails.listcartdetailByidcart(idcart);
+    }
 }

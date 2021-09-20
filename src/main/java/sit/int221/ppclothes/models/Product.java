@@ -26,9 +26,6 @@ public class Product {
     @OneToMany(mappedBy = "product")
     @JsonIgnore
     private List<CartDetails> cartDetailsList;
-    @OneToMany(mappedBy = "product")
-    @JsonIgnore
-    private List<ReceiptDetails> receiptDetailsList;
 
 
     public Product(long idPro, String proName, String proDescript, double proPrice, long proAmount, Date proMfd, String proPathImg, Brand brand) {
@@ -126,11 +123,4 @@ public class Product {
         this.cartDetailsList = cartDetailsList;
     }
 
-    public List<ReceiptDetails> getReceiptDetailsList() {
-        return receiptDetailsList;
-    }
-
-    public void setReceiptDetailsList(List<ReceiptDetails> receiptDetailsList) {
-        this.receiptDetailsList = receiptDetailsList;
-    }
 }

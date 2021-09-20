@@ -14,25 +14,21 @@ public class ReceiptDetails {
     private long idReceiptDetails;
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "idPro")
-    private Product product;
-    @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "idReceipt")
     private Receipt receipt;
     @ManyToOne
     @JoinColumn(name = "idColor")
     private Color color;
     private String proName;
+    private String brandName;
     private double proPrice;
     private long proPerPiece;
 
-    public ReceiptDetails(long idReceiptDetails, Product product, Receipt receipt, Color color, String proName, double proPrice, long proPerPiece) {
-        this.idReceiptDetails = idReceiptDetails;
-        this.product = product;
+    public ReceiptDetails(Receipt receipt, Color color, String proName, String brandName, double proPrice, long proPerPiece) {
         this.receipt = receipt;
         this.color = color;
         this.proName = proName;
+        this.brandName = brandName;
         this.proPrice = proPrice;
         this.proPerPiece = proPerPiece;
     }
@@ -46,14 +42,6 @@ public class ReceiptDetails {
 
     public void setIdReceiptDetails(long idReceiptDetails) {
         this.idReceiptDetails = idReceiptDetails;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
     }
 
     public Receipt getReceipt() {
@@ -78,6 +66,14 @@ public class ReceiptDetails {
 
     public void setProName(String proName) {
         this.proName = proName;
+    }
+
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
     }
 
     public double getProPrice() {
