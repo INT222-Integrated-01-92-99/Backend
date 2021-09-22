@@ -46,22 +46,24 @@ public class CartController {
         }else if(amount <= 0){
             throw new CartException(ExceptionRepo.ERROR_CODE.AMOUNT_VALUE,"Your amount less than 0.");
         }
-        if(repoCartDetails.getTotalInCart(idcart,idpro) != null){
+        if(repoCartDetails.getTotalInCartOfProduct(idcart,idpro) != null){
             if(repoCartDetails.findById(idcartdetail).orElse(null) == null){
-                long totalAmountInCart = repoCartDetails.getTotalInCart(idcart,idpro);
+                long totalAmountInCart = repoCartDetails.getTotalInCartOfProduct(idcart,idpro);
                 if(totalAmountInCart+amount > amountofpro){
                     throw new CartException(ExceptionRepo.ERROR_CODE.AMOUNT_VALUE,"Your total amount in cart more than stock");
-                }else if(totalAmountInCart+amount < 0){
+                }else if(totalAmountInCart+amount <= 0){
                     throw new CartException(ExceptionRepo.ERROR_CODE.AMOUNT_VALUE,"Your amount less than 0.");
                 }
                 return;
-            }else {
+            }
+            if( repoCartDetails.getTotalInCartWithoutsomeId(idcart, idpro,idcartdetail) != null ){
                 long totalAmountInCart = repoCartDetails.getTotalInCartWithoutsomeId(idcart, idpro,idcartdetail);
                 if (totalAmountInCart + amount > amountofpro) {
                     throw new CartException(ExceptionRepo.ERROR_CODE.AMOUNT_VALUE, "Your total amount in cart more than stock");
-                } else if (totalAmountInCart + amount < 0) {
+                } else if (totalAmountInCart + amount <= 0) {
                     throw new CartException(ExceptionRepo.ERROR_CODE.AMOUNT_VALUE, "Your amount less than 0.");
                 }
+                return;
             }
         }
     }
@@ -78,11 +80,13 @@ public class CartController {
 
 
     @PutMapping("/edititemincart")
-    public CartDetails editamountitemincart(@RequestParam(name = "idpro") long idpro,@RequestParam(name = "amount") long amount,@RequestParam(name = "idcartdetail") long idcartdetail){
+    public CartDetails editamountitemincart(@RequestParam(name = "idpro") long idpro,@RequestParam(name = "amount") long amount,@RequestParam(name = "idcartdetail") long idcartdetail,@RequestParam(name = "idcolor") long idcolor){
         long idcart = repoCartDetails.getidcart(idcartdetail);
         checkamount(amount,idpro,idcart,idcartdetail);
         CartDetails cartDetails = repoCartDetails.findById(idcartdetail).orElse(null);
         cartDetails.setProPerPiece(amount);
+        Color color = repoColor.findById(idcolor).orElse(null);
+        cartDetails.setColor(color);
         return repoCartDetails.save(cartDetails);
     }
 
@@ -122,7 +126,6 @@ public class CartController {
             productNewAmount.setProAmount(newamount);
             repoProduct.save(productNewAmount);
         }
-
         return "Success";
     }
 

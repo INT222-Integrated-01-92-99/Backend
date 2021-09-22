@@ -10,11 +10,11 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8081")
-public class ItemController {
+public class ProWithColorsController {
     @Autowired
     private repoProwithcolos repoProwithcolos;
 
-    @GetMapping("item")
+    @GetMapping("/prowithcolors")
     public List<Prowithcolors> item(){
         return repoProwithcolos.findAll();
     }

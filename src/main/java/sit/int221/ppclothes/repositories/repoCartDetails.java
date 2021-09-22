@@ -15,7 +15,7 @@ public interface repoCartDetails extends JpaRepository<CartDetails,Long>{
     List<CartDetails> listcartdetailByidcart(long idcart);
 
     @Query(value = "SELECT sum(proPerPiece) FROM CartDetails where product.idPro = ?2 and cart.idCart = ?1")
-    Long getTotalInCart(long idcart,long idpro);
+    Long getTotalInCartOfProduct(long idcart,long idpro);
 
     @Query(value = "SELECT sum(proPerPiece) FROM CartDetails where product.idPro = ?2 and cart.idCart = ?1 and  idCartDetail <> ?3 ")
     Long getTotalInCartWithoutsomeId(long idcart,long idpro,long idcartdetail);
