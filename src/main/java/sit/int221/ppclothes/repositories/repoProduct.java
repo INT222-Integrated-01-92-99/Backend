@@ -13,8 +13,7 @@ public interface repoProduct extends JpaRepository<Product,Long> {
     @Query(value = "SELECT Max(idPro) FROM Product")
     Long getMaxproId();
 
-    @Query(value = "SELECT proName FROM Product Where proName = ?1")
-    Product findByName(String proName);
+    Product findByProName(String proName);
 
     @Query(value = "SELECT P FROM Product P Where P.proName LIKE %?1% ")
     List<Product> searchwithoutbrand(String proName);

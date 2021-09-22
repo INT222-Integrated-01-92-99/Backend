@@ -91,6 +91,13 @@ public class CartController {
         repoCartDetails.deleteById(idcartdetail);
     }
 
+    @DeleteMapping("/deletemultipleitemincart")
+    public void deleteMultipleIteminCart(@RequestParam(name = "idcartdetail") long[] idcartdetail){
+        for(long idcartdetailPerline : idcartdetail){
+            repoCartDetails.deleteById(idcartdetailPerline);
+        }
+    }
+
     @PostMapping("/purchase")
     public String purchase(@RequestParam(name = "idcart") long idcart){
         long idacc = repoAccount.getidacc(idcart);

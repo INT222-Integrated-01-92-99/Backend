@@ -37,11 +37,11 @@ public class ProductController {
 
     @PostMapping("/add")
     public Product add(@RequestBody Product newproduct){
-        if(repoPro.findById(newproduct.getIdPro()).orElse(null) != null && repoPro.findByName(newproduct.getProName()) != null){
+        if(repoPro.findById(newproduct.getIdPro()).orElse(null) != null && repoPro.findByProName(newproduct.getProName()) != null){
             throw new ProductException(ExceptionRepo.ERROR_CODE.PRODUCT_ALREADY_EXIST,"Id : "+newproduct.getIdPro() + " AND Name : "+newproduct.getProName() + " Have Already");
         }else if(repoPro.findById(newproduct.getIdPro()).orElse(null) != null){
             throw new ProductException(ExceptionRepo.ERROR_CODE.PRODUCT_ID_ALREADY_EXIST,"Id : "+newproduct.getIdPro() + " Have Already");
-        }else if(repoPro.findByName(newproduct.getProName()) != null){
+        }else if(repoPro.findByProName(newproduct.getProName()) != null){
             throw new ProductException(ExceptionRepo.ERROR_CODE.PRODUCT_NAME_ALREADY_EXIST,"Name : "+newproduct.getProName() + " Have Already");
         }
         Product Productnoitem = new Product(newproduct.getIdPro(), newproduct.getProName(),newproduct.getProDescript(),newproduct.getProPrice(),newproduct.getProAmount(),newproduct.getProMfd(),newproduct.getProPathImg(),newproduct.getBrand());
@@ -56,11 +56,11 @@ public class ProductController {
 
     @PostMapping(value = "/add/image",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Product addProductWithImage(@RequestParam(value = "image",required = false) MultipartFile imageFile,@RequestPart Product newproduct){
-        if(repoPro.findById(newproduct.getIdPro()).orElse(null) != null && repoPro.findByName(newproduct.getProName()) != null){
+        if(repoPro.findById(newproduct.getIdPro()).orElse(null) != null && repoPro.findByProName(newproduct.getProName()) != null){
             throw new ProductException(ExceptionRepo.ERROR_CODE.PRODUCT_ALREADY_EXIST,"Id : "+newproduct.getIdPro() + " AND Name : "+newproduct.getProName() + " Have Already");
         }else if(repoPro.findById(newproduct.getIdPro()).orElse(null) != null){
             throw new ProductException(ExceptionRepo.ERROR_CODE.PRODUCT_ID_ALREADY_EXIST,"Id : "+newproduct.getIdPro() + " Have Already");
-        }else if(repoPro.findByName(newproduct.getProName()) != null){
+        }else if(repoPro.findByProName(newproduct.getProName()) != null){
             throw new ProductException(ExceptionRepo.ERROR_CODE.PRODUCT_NAME_ALREADY_EXIST,"Name : "+newproduct.getProName() + " Have Already");
         }else if(imageFile == null){
             throw new ProductException(ExceptionRepo.ERROR_CODE.ICECREAM_IMAGE_NULL,"Can't add. Product id: "+newproduct.getIdPro());
@@ -89,30 +89,32 @@ public class ProductController {
     }
 
     @PutMapping("/edit")
-    public Product edit(@RequestBody Product editProduct){
+    public Product edit(@RequestPart Product editProduct){
         Product productId = repoPro.findById(editProduct.getIdPro()).orElse(null);
-        Product productName = repoPro.findByName(editProduct.getProName());
+        Product productName = repoPro.findByProName(editProduct.getProName());
         if(productId == null){
             throw new ProductException(ExceptionRepo.ERROR_CODE.PRODUCT_DOES_NOT_EXIST,"Can't edit. Id : "+editProduct.getIdPro() + " does not exist.");
         }else if(productName != null && productId.getIdPro() != productName.getIdPro()){
             throw new ProductException(ExceptionRepo.ERROR_CODE.PRODUCT_NAME_ALREADY_EXIST,"Can't edit . Name : "+editProduct.getProName() + " already exist.");
         }
         List<Prowithcolors> beforeEditProduct = productId.getProwithcolor();
+        List<Prowithcolors> prowithcolors = editProduct.getProwithcolor();
         for(Prowithcolors prowithcolors1 : beforeEditProduct){
             repoProwithcolos.deleteById(prowithcolors1.getIdprowithcolors());
         }
-        List<Prowithcolors> prowithcolors = editProduct.getProwithcolor();
         for(Prowithcolors prowithcolors2 : prowithcolors){
             prowithcolors2.setProduct(editProduct);
             repoProwithcolos.save(prowithcolors2);
         }
+        Product newpro = repoPro.findById(editProduct.getIdPro()).orElse(null);
+        editProduct.setProwithcolor(newpro.getProwithcolor());
         return repoPro.save(editProduct);
     }
 
     @PutMapping("/edit/image")
     public Product editWithImage(@RequestParam(value = "image",required = false) MultipartFile imageFile, @RequestPart Product editProduct){
         Product productId = repoPro.findById(editProduct.getIdPro()).orElse(null);
-        Product productName = repoPro.findByName(editProduct.getProName());
+        Product productName = repoPro.findByProName(editProduct.getProName());
         if(productId == null){
             throw new ProductException(ExceptionRepo.ERROR_CODE.PRODUCT_DOES_NOT_EXIST,"Can't edit. Id : "+editProduct.getIdPro() + " does not exist.");
         }else if(productName != null && productId.getIdPro() != productName.getIdPro()){
