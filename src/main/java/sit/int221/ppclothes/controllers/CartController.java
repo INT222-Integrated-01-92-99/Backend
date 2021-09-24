@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8081")
 public class CartController {
     @Autowired
     private repoCart repoCart;
