@@ -20,7 +20,6 @@ import sit.int221.ppclothes.services.StorageService;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8081")
 public class ProductController {
 
     @Autowired
