@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8081")
 public class ProWithColorsController {
     @Autowired
     private repoProwithcolos repoProwithcolos;
