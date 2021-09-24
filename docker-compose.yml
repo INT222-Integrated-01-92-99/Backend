@@ -8,6 +8,8 @@ services:
       - MYSQL_DATABASE=project
       - MYSQL_USER=root
       - MYSQL_ROOT_PASSWORD=flukefriendbest
+    volumes:
+      -  /home/ppclothes/backend/images:/public/img
     ports:
       - "3000:3000"
 
