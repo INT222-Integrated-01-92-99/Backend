@@ -105,8 +105,7 @@ public class ProductController {
             prowithcolors2.setProduct(editProduct);
             repoProwithcolos.save(prowithcolors2);
         }
-        Product newpro = repoPro.findById(editProduct.getIdPro()).orElse(null);
-        editProduct.setProwithcolor(newpro.getProwithcolor());
+        editProduct.setProwithcolor(prowithcolors);
         return repoPro.save(editProduct);
     }
 

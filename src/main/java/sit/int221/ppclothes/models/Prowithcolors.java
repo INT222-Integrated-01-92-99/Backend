@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "prowithcolors")
+@Table(name = "proWithColors")
 public class Prowithcolors {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

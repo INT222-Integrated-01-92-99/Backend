@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
 @Entity
+@Table(name = "product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
