@@ -4,6 +4,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
@@ -18,7 +19,7 @@ public interface StorageService {
 
     Path load(String imageName);
 
-    Resource loadAsResource(String imageName);
+    Resource loadAsResource(String imageName) throws MalformedURLException;
 
     void deleteAll();
 

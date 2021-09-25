@@ -74,17 +74,17 @@ public class ImageStorageService implements StorageService{
     }
 
     @Override
-    public Resource loadAsResource(String imageName) {
+    public Resource loadAsResource(String imageName) throws MalformedURLException {
         try {
             Path file = rootLocation.resolve(imageName);
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {
-                throw new RuntimeException("FAIL!");
+                throw new RuntimeException("exit");
             }
         } catch (MalformedURLException e) {
-            throw new RuntimeException("FAIL!");
+            throw e;
         }
     }
 
