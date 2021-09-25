@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import sit.int221.ppclothes.models.ImageDetail;
 import sit.int221.ppclothes.services.StorageService;
 
+import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -55,7 +56,7 @@ public class ImageController {
     }
 
     @GetMapping(value = "/image/{imageName}", produces = MediaType.IMAGE_PNG_VALUE)
-    public Resource showImage(@PathVariable String imageName) {
+    public Resource showImage(@PathVariable String imageName) throws MalformedURLException {
         return storageService.loadAsResource(imageName);
     }
 }
