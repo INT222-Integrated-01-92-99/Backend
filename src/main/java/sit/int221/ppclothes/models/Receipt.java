@@ -19,16 +19,26 @@ public class Receipt {
     @JoinColumn(name = "idAccount")
     private Account account;
     private LocalDateTime datePurchase;
+    private double totalPrice;
     @OneToMany(mappedBy = "receipt")
     private List<ReceiptDetails> receiptDetailsList;
 
-    public Receipt(Account account, LocalDateTime datePurchase) {
+    public Receipt(Account account, LocalDateTime datePurchase, double totalPrice) {
         this.account = account;
         this.datePurchase = datePurchase;
+        this.totalPrice = totalPrice;
     }
 
     public Receipt() {
 
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public long getIdReceipt() {

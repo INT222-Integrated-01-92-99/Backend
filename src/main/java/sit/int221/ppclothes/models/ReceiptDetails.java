@@ -23,14 +23,24 @@ public class ReceiptDetails {
     private String brandName;
     private double proPrice;
     private long proPerPiece;
+    private double totalPrice;
 
-    public ReceiptDetails(Receipt receipt, Color color, String proName, String brandName, double proPrice, long proPerPiece) {
+    public ReceiptDetails(Receipt receipt, Color color, String proName, String brandName, double proPrice, long proPerPiece, double totalPrice) {
         this.receipt = receipt;
         this.color = color;
         this.proName = proName;
         this.brandName = brandName;
         this.proPrice = proPrice;
         this.proPerPiece = proPerPiece;
+        this.totalPrice = totalPrice;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public ReceiptDetails() {

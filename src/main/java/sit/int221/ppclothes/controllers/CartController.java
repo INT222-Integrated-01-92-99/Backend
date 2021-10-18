@@ -124,7 +124,8 @@ public class CartController {
         long idacc = repoAccount.getidacc(idcart);
         Account account = repoAccount.findById(idacc).orElse(null);
         LocalDateTime time = LocalDateTime.now();
-        Receipt receipt = new Receipt(account,time);
+        Cart cart = repoCart.findById(idcart).orElse(null);
+        Receipt receipt = new Receipt(account,time,cart.getTotalPrice());
         List<CartDetails> cartDetailsList = repoCartDetails.listcartdetailByidcart(idcart);
         repoReceipt.save(receipt);
         for(CartDetails cartDetailperline : cartDetailsList){
@@ -133,8 +134,9 @@ public class CartController {
             String brandname = cartDetailperline.getProduct().getBrand().getBrandName();
             Double proprice = cartDetailperline.getProduct().getProPrice();
             long properpiece = cartDetailperline.getProPerPiece();
+            double totalprice = cartDetailperline.getTotalPrice();
             Color color = cartDetailperline.getColor();
-            ReceiptDetails newreceiptDetail = new ReceiptDetails(receipt,color,proname,brandname,proprice,properpiece);
+            ReceiptDetails newreceiptDetail = new ReceiptDetails(receipt,color,proname,brandname,proprice,properpiece,totalprice);
             repoReceiptDetails.save(newreceiptDetail);
             repoCartDetails.deleteById(cartDetailperline.getIdCartDetail());
             long amountofpro = repoProduct.amount(idpro);
@@ -143,6 +145,7 @@ public class CartController {
             productNewAmount.setProAmount(newamount);
             repoProduct.save(productNewAmount);
         }
+        cart.setTotalPrice(0);
         return "Success";
     }
 
