@@ -73,7 +73,9 @@ public class CartController {
         Cart cart = repoCart.findById(idcart).orElse(null);
         Product product = repoProduct.findById(idpro).orElse(null);
         Color color = repoColor.findById(idcolor).orElse(null);
-        CartDetails newitemincart = new CartDetails(product,cart,amount,color);
+        double totalprice = product.getProPrice() * amount;
+        cart.setTotalPrice(cart.getTotalPrice()+totalprice);
+        CartDetails newitemincart = new CartDetails(product,cart,amount,totalprice,color);
         return repoCartDetails.save(newitemincart);
     }
 
@@ -81,9 +83,15 @@ public class CartController {
     @PutMapping("/edititemincart")
     public CartDetails editamountitemincart(@RequestParam(name = "idpro") long idpro,@RequestParam(name = "amount") long amount,@RequestParam(name = "idcartdetail") long idcartdetail,@RequestParam(name = "idcolor") long idcolor){
         long idcart = repoCartDetails.getidcart(idcartdetail);
+        Cart cart = repoCart.findById(idcart).orElse(null);
         checkamount(amount,idpro,idcart,idcartdetail);
         CartDetails cartDetails = repoCartDetails.findById(idcartdetail).orElse(null);
+        double productprice = cartDetails.getTotalPrice() / cartDetails.getProPerPiece();
+        cart.setTotalPrice(cart.getTotalPrice() - cartDetails.getTotalPrice());
+        double newtotalprice = productprice * amount;
+        cart.setTotalPrice(cart.getTotalPrice() + newtotalprice);
         cartDetails.setProPerPiece(amount);
+        cartDetails.setTotalPrice(newtotalprice);
         Color color = repoColor.findById(idcolor).orElse(null);
         cartDetails.setColor(color);
         return repoCartDetails.save(cartDetails);
@@ -91,12 +99,22 @@ public class CartController {
 
     @DeleteMapping("/deleteitemincart")
     public void deleteitemincart(@RequestParam(name = "idcartdetail") long idcartdetail){
+        long idcart = repoCartDetails.getidcart(idcartdetail);
+        CartDetails delcartdetail = repoCartDetails.findById(idcartdetail).orElse(null);
+        double totalprice = delcartdetail.getTotalPrice();
+        Cart cart = repoCart.findById(idcart).orElse(null);
+        cart.setTotalPrice(cart.getTotalPrice() - totalprice);
         repoCartDetails.deleteById(idcartdetail);
     }
 
     @DeleteMapping("/deletemultipleitemincart")
     public void deleteMultipleIteminCart(@RequestParam(name = "idcartdetail") long[] idcartdetail){
         for(long idcartdetailPerline : idcartdetail){
+            long idcart = repoCartDetails.getidcart(idcartdetailPerline);
+            CartDetails delcartdetail = repoCartDetails.findById(idcartdetailPerline).orElse(null);
+            double totalprice = delcartdetail.getTotalPrice();
+            Cart cart = repoCart.findById(idcart).orElse(null);
+            cart.setTotalPrice(cart.getTotalPrice() - totalprice);
             repoCartDetails.deleteById(idcartdetailPerline);
         }
     }

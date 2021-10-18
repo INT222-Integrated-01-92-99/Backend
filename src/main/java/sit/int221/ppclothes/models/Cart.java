@@ -11,11 +11,13 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idCart;
+    private double totalPrice;
     @OneToMany(mappedBy = "cart")
     private List<CartDetails> cartDetails;
 
-    public Cart(long idCart, List<CartDetails> cartDetails) {
+    public Cart(long idCart, double totalPrice, List<CartDetails> cartDetails) {
         this.idCart = idCart;
+        this.totalPrice = totalPrice;
         this.cartDetails = cartDetails;
     }
 
@@ -41,5 +43,13 @@ public class Cart {
 
     public void setCartDetails(List<CartDetails> cartDetails) {
         this.cartDetails = cartDetails;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

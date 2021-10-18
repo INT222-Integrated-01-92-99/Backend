@@ -20,14 +20,17 @@ public class CartDetails {
     private Cart cart;
     @JoinColumn(name = "proPerPiece")
     private long proPerPiece;
+    @JoinColumn(name = "totalPrice")
+    private double totalPrice;
     @ManyToOne
     @JoinColumn(name = "idColor")
     private Color color;
 
-    public CartDetails(Product product, Cart cart, long proPerPiece, Color color) {
+    public CartDetails(Product product, Cart cart, long proPerPiece,double totalPrice, Color color) {
         this.product = product;
         this.cart = cart;
         this.proPerPiece = proPerPiece;
+        this.totalPrice = totalPrice;
         this.color = color;
     }
 
@@ -73,5 +76,13 @@ public class CartDetails {
 
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }
