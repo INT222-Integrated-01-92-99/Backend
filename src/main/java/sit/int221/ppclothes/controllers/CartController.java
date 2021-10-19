@@ -125,6 +125,7 @@ public class CartController {
         Account account = repoAccount.findById(idacc).orElse(null);
         LocalDateTime time = LocalDateTime.now();
         Cart cart = repoCart.findById(idcart).orElse(null);
+        cart.setTotalPrice(0);
         Receipt receipt = new Receipt(account,time,cart.getTotalPrice());
         List<CartDetails> cartDetailsList = repoCartDetails.listcartdetailByidcart(idcart);
         repoReceipt.save(receipt);
@@ -145,7 +146,6 @@ public class CartController {
             productNewAmount.setProAmount(newamount);
             repoProduct.save(productNewAmount);
         }
-        cart.setTotalPrice(0);
         return "Success";
     }
 
