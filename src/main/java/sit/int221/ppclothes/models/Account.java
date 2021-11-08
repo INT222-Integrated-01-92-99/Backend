@@ -13,7 +13,6 @@ public class Account {
     private long idAccount;
     private String accUsername;
     private String accPass;
-    private String accRole;
     private String accFname;
     private String accLname;
     private String accPhone;
@@ -23,16 +22,19 @@ public class Account {
     private Cart cart;
     @OneToMany(mappedBy = "account")
     private List<Receipt> receiptList;
+    @ManyToOne
+    @JoinColumn(name = "idRole")
+    private Role idRole;
 
-    public Account(long idAccount, String accUsername, String accPass, String accRole, String accFname, String accLname, String accPhone, String accAddress) {
+    public Account(long idAccount, String accUsername, String accPass, String accFname, String accLname, String accPhone, String accAddress, Role idRole) {
         this.idAccount = idAccount;
         this.accUsername = accUsername;
         this.accPass = accPass;
-        this.accRole = accRole;
         this.accFname = accFname;
         this.accLname = accLname;
         this.accPhone = accPhone;
         this.accAddress = accAddress;
+        this.idRole = idRole;
     }
 
     public Account() {
@@ -61,14 +63,6 @@ public class Account {
 
     public void setAccPass(String accPass) {
         this.accPass = accPass;
-    }
-
-    public String getAccRole() {
-        return accRole;
-    }
-
-    public void setAccRole(String accRole) {
-        this.accRole = accRole;
     }
 
     public String getAccFname() {
@@ -117,5 +111,13 @@ public class Account {
 
     public void setReceiptList(List<Receipt> receiptList) {
         this.receiptList = receiptList;
+    }
+
+    public Role getIdRole() {
+        return idRole;
+    }
+
+    public void setIdRole(Role idRole) {
+        this.idRole = idRole;
     }
 }

@@ -8,7 +8,7 @@ import sit.int221.ppclothes.models.Cart;
 public interface repoCart extends JpaRepository<Cart,Long>{
 
     @Query(value = "SELECT max(idCart) FROM Cart")
-    Cart getMaxCartId();
+    long getMaxCartId();
 
 //    @Query(value = "SELECT max(idCart) FROM Cart WHERE ")
 //    Cart findByIdAcc(long idacc);

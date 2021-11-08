@@ -18,6 +18,15 @@ public class Brand {
     @OneToMany(mappedBy = "brand")
     private List<Product> products;
 
+    public Brand(){
+
+    }
+
+    public Brand(long idBrand, String brandName) {
+        this.idBrand = idBrand;
+        this.brandName = brandName;
+    }
+
     public long getIdBrand() {
         return idBrand;
     }

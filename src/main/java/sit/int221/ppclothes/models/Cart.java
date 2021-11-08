@@ -15,10 +15,9 @@ public class Cart {
     @OneToMany(mappedBy = "cart")
     private List<CartDetails> cartDetails;
 
-    public Cart(long idCart, double totalPrice, List<CartDetails> cartDetails) {
+    public Cart(long idCart, double totalPrice) {
         this.idCart = idCart;
         this.totalPrice = totalPrice;
-        this.cartDetails = cartDetails;
     }
 
     public Cart(long idCart) {

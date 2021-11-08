@@ -11,4 +11,8 @@ public interface repoAccount extends JpaRepository<Account,Long>{
 
     @Query(value = "SELECT a.idAccount FROM Account a ,Cart c where a.cart.idCart = c.idCart and c.idCart = ?1")
     Long getidacc(long idcart);
+
+    @Query(value = "SELECT MAX(idAccount) FROM Account ")
+    Long getMaxidAcc();
+
 }
