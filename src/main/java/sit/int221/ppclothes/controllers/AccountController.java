@@ -26,6 +26,7 @@ public class AccountController {
         return repoAccount.findAll();
     }
 
+
     @GetMapping("/account/{idacc}")
     public Account AccountById(@PathVariable long idacc){
         Account account = repoAccount.findById(idacc).orElse(null);

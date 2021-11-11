@@ -7,11 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+@RestController
 public class RoleController {
     @Autowired
     private repoRole repoRole;
 
-    @GetMapping ("/Role")
+    @GetMapping ("/role")
     public List<Role> Role(){
         return repoRole.findAll();
     }
