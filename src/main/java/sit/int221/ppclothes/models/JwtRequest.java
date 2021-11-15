@@ -1,5 +1,4 @@
 package sit.int221.ppclothes.models;
-
 import java.io.Serializable;
 
 public class JwtRequest implements Serializable {

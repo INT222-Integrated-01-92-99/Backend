@@ -13,7 +13,7 @@ public class ReceiptDetailsController {
     @Autowired
     private repoReceiptDetails repoReceiptDetails;
 
-    @GetMapping("/receiptdetails")
+    @GetMapping("/main/receiptdetails")
     public List<ReceiptDetails> RepoReceiptDetails(){
         return repoReceiptDetails.findAll();
     }

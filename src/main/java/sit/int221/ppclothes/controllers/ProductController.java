@@ -29,12 +29,12 @@ public class ProductController {
     @Autowired
     StorageService storageService;
 
-    @GetMapping("/product")
+    @GetMapping("/main/product")
     public List<Product> products(){
         return repoPro.findAll();
     }
 
-    @PostMapping("/add")
+    @PostMapping("/staff/add")
     public Product add(@RequestBody Product newproduct){
         if(repoPro.findById(newproduct.getIdPro()).orElse(null) != null && repoPro.findByProName(newproduct.getProName()) != null){
             throw new ProductException(ExceptionRepo.ERROR_CODE.PRODUCT_ALREADY_EXIST,"Id : "+newproduct.getIdPro() + " AND Name : "+newproduct.getProName() + " Have Already");
@@ -53,7 +53,7 @@ public class ProductController {
         return repoPro.save(newproduct);
     }
 
-    @PostMapping(value = "/add/image",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/staff/add/image",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Product addProductWithImage(@RequestParam(value = "image",required = false) MultipartFile imageFile,@RequestPart Product newproduct){
         if(repoPro.findById(newproduct.getIdPro()).orElse(null) != null && repoPro.findByProName(newproduct.getProName()) != null){
             throw new ProductException(ExceptionRepo.ERROR_CODE.PRODUCT_ALREADY_EXIST,"Id : "+newproduct.getIdPro() + " AND Name : "+newproduct.getProName() + " Have Already");
@@ -74,7 +74,7 @@ public class ProductController {
         return repoPro.save(newproduct);
     }
 
-    @DeleteMapping("/delete/{idPro}")
+    @DeleteMapping("/staff/delete/{idPro}")
     public void delete(@PathVariable Long idPro){
         Product product = repoPro.findById(idPro).orElse(null);
         if(product == null){
@@ -87,7 +87,7 @@ public class ProductController {
         repoPro.deleteById(idPro);
     }
 
-    @PutMapping("/edit")
+    @PutMapping("/staff/edit")
     public Product edit(@RequestPart Product editProduct){
         Product productId = repoPro.findById(editProduct.getIdPro()).orElse(null);
         Product productName = repoPro.findByProName(editProduct.getProName());
@@ -109,7 +109,7 @@ public class ProductController {
         return repoPro.save(editProduct);
     }
 
-    @PutMapping("/edit/image")
+    @PutMapping("/staff/edit/image")
     public Product editWithImage(@RequestParam(value = "image",required = false) MultipartFile imageFile, @RequestPart Product editProduct){
         Product productId = repoPro.findById(editProduct.getIdPro()).orElse(null);
         Product productName = repoPro.findByProName(editProduct.getProName());
@@ -136,18 +136,18 @@ public class ProductController {
         return repoPro.save(editProduct);
     }
 
-    @GetMapping("/product/{idPro}")
+    @GetMapping("/main/product/{idPro}")
     public Product productwihtid(@PathVariable Long idPro){
         Product product = repoPro.findById(idPro).orElse(null);
         return product;
     }
 
-    @GetMapping("/getmaxidPro")
+    @GetMapping("/main/getmaxidPro")
     public long maxIdproduct() {
         return repoPro.getMaxproId();
     }
 
-    @GetMapping("/search")
+    @GetMapping("/main/search")
     public List<Product> searchproduct(@RequestParam String proname,@RequestParam Long idbrand) {
         return repoPro.searchwithoutbrand(proname);
     }

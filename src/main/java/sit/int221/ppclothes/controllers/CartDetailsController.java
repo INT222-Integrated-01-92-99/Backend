@@ -13,8 +13,9 @@ public class CartDetailsController {
     @Autowired
     private repoCartDetails repoCartDetails;
 
-    @GetMapping("/cartdetails")
-    public List<CartDetails> CartDetailsAll(){
-        return repoCartDetails.findAll();
-    }
+//    @GetMapping("/cartdetails")
+//    public List<CartDetails> CartDetailsAll(){
+//        return repoCartDetails.findAll();
+//    }
+
 }

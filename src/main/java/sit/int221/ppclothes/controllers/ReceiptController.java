@@ -14,12 +14,12 @@ public class ReceiptController {
     @Autowired
     private repoReceipt repoReceipt;
 
-    @GetMapping("/receipt")
+    @GetMapping("/admin/receipt")
     public List<Receipt> Receipt(){
         return repoReceipt.findAll();
     }
 
-    @GetMapping("/receipt/{idreceipt}")
+    @GetMapping("/member/receipt/{idreceipt}")
     public Receipt ReceiptbyId(@PathVariable Long idreceipt){
         Receipt receipt = repoReceipt.findById(idreceipt).orElse(null);
         return receipt;

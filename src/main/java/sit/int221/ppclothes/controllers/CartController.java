@@ -27,12 +27,12 @@ public class CartController {
     @Autowired
     private repoAccount repoAccount;
 
-    @GetMapping("/cart")
+    @GetMapping("/member/cart")
     public List<Cart> CartAll(){
         return repoCart.findAll();
     }
 
-    @GetMapping("/cart/{idcart}")
+    @GetMapping("/member/cart/{idcart}")
     public Cart CartbyIdCart(@PathVariable Long idcart){
         Cart cart = repoCart.findById(idcart).orElse(null);
         return cart;
@@ -67,7 +67,7 @@ public class CartController {
         }
     }
 
-    @PostMapping(value = "/additemtocart")
+    @PostMapping(value = "/member/additemtocart")
     public CartDetails additemtocart(@RequestParam(name = "idpro") long idpro,@RequestParam(name = "amount") long amount,@RequestParam(name = "idcart") long idcart,@RequestParam(name = "idcolor") long idcolor){
         checkamount(amount,idpro,idcart,0);
         Cart cart = repoCart.findById(idcart).orElse(null);
@@ -80,7 +80,7 @@ public class CartController {
     }
 
 
-    @PutMapping("/edititemincart")
+    @PutMapping("/member/edititemincart")
     public CartDetails editamountitemincart(@RequestParam(name = "idpro") long idpro,@RequestParam(name = "amount") long amount,@RequestParam(name = "idcartdetail") long idcartdetail,@RequestParam(name = "idcolor") long idcolor){
         long idcart = repoCartDetails.getidcart(idcartdetail);
         Cart cart = repoCart.findById(idcart).orElse(null);
@@ -97,7 +97,7 @@ public class CartController {
         return repoCartDetails.save(cartDetails);
     }
 
-    @DeleteMapping("/deleteitemincart")
+    @DeleteMapping("/member/deleteitemincart")
     public void deleteitemincart(@RequestParam(name = "idcartdetail") long idcartdetail){
         long idcart = repoCartDetails.getidcart(idcartdetail);
         CartDetails delcartdetail = repoCartDetails.findById(idcartdetail).orElse(null);
@@ -107,7 +107,7 @@ public class CartController {
         repoCartDetails.deleteById(idcartdetail);
     }
 
-    @DeleteMapping("/deletemultipleitemincart")
+    @DeleteMapping("/member/deletemultipleitemincart")
     public void deleteMultipleIteminCart(@RequestParam(name = "idcartdetail") long[] idcartdetail){
         for(long idcartdetailPerline : idcartdetail){
             long idcart = repoCartDetails.getidcart(idcartdetailPerline);
@@ -119,7 +119,7 @@ public class CartController {
         }
     }
 
-    @PostMapping("/purchase")
+    @PostMapping("/member/purchase")
     public String purchase(@RequestParam(name = "idcart") long idcart){
         long idacc = repoAccount.getidacc(idcart);
         Account account = repoAccount.findById(idacc).orElse(null);
@@ -150,8 +150,8 @@ public class CartController {
         return "Success";
     }
 
-    @GetMapping("/test")
-    public List<CartDetails> test(@RequestParam(name = "idcart") long idcart){
-        return repoCartDetails.listcartdetailByidcart(idcart);
-    }
+//    @GetMapping("/test")
+//    public List<CartDetails> test(@RequestParam(name = "idcart") long idcart){
+//        return repoCartDetails.listcartdetailByidcart(idcart);
+//    }
 }

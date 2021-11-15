@@ -21,19 +21,19 @@ public class AccountController {
     @Autowired
     private repoRole repoRole;
 
-    @GetMapping("/account")
+    @GetMapping("/admin/account")
     public List<Account> Account(){
         return repoAccount.findAll();
     }
 
 
-    @GetMapping("/account/{idacc}")
+    @GetMapping("/admin/account/{idacc}")
     public Account AccountById(@PathVariable long idacc){
         Account account = repoAccount.findById(idacc).orElse(null);
         return account;
     }
 
-    @PostMapping(value = "/registaccount")
+    @PostMapping(value = "/main/registaccount")
     public Account Register(@RequestBody Account newAccount){
         long newIDcart = repoCart.getMaxCartId() + 1;
         long newIDaccount = repoAccount.getMaxidAcc() + 1;
@@ -45,18 +45,18 @@ public class AccountController {
         return newAccount;
     }
 
-    @PutMapping(value = "/editaccount")
+    @PutMapping(value = "/main/editaccount")
     public Account EditAccount(@RequestBody Account editAccount){
         return repoAccount.save(editAccount);
     }
 
 
-    @DeleteMapping(value = "/deleteaccount")
+    @DeleteMapping(value = "/admin/deleteaccount")
     public void DelAccount(@RequestParam long idAccount){
         repoAccount.deleteById(idAccount);
     }
 
-    @PutMapping(value = "/changerole")
+    @PutMapping(value = "/admin/changerole")
     public void ChangeRole(@RequestParam long idAccount , @RequestParam Role role){
         Account account = repoAccount.findById(idAccount).orElse(null);
         account.setIdRole(role);

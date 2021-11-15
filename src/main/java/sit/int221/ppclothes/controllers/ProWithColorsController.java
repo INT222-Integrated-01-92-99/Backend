@@ -13,7 +13,7 @@ public class ProWithColorsController {
     @Autowired
     private repoProwithcolos repoProwithcolos;
 
-    @GetMapping("/prowithcolors")
+    @GetMapping("/main/prowithcolors")
     public List<Prowithcolors> item(){
         return repoProwithcolos.findAll();
     }

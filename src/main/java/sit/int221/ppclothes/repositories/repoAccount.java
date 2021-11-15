@@ -3,6 +3,7 @@ package sit.int221.ppclothes.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import sit.int221.ppclothes.models.Account;
+import sit.int221.ppclothes.models.AuthenticationUser;
 
 public interface repoAccount extends JpaRepository<Account,Long>{
 
@@ -14,5 +15,7 @@ public interface repoAccount extends JpaRepository<Account,Long>{
 
     @Query(value = "SELECT MAX(idAccount) FROM Account ")
     Long getMaxidAcc();
+
+    Account findByAccUsername(String username);
 
 }

@@ -14,7 +14,7 @@ public class ColorController {
     @Autowired
     private repoColor repoColor;
 
-    @GetMapping("/color")
+    @GetMapping("/main/color")
     public List<Color> colors(){
         return repoColor.findAll();
     }

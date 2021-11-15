@@ -12,7 +12,7 @@ public class RoleController {
     @Autowired
     private repoRole repoRole;
 
-    @GetMapping ("/role")
+    @GetMapping ("/admin/role")
     public List<Role> Role(){
         return repoRole.findAll();
     }
