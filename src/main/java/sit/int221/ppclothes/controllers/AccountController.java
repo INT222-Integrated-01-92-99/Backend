@@ -1,5 +1,7 @@
 package sit.int221.ppclothes.controllers;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import sit.int221.ppclothes.exceptions.ExceptionRepo;
 import sit.int221.ppclothes.exceptions.ProductException;
@@ -62,4 +64,13 @@ public class AccountController {
         account.setIdRole(role);
         repoAccount.save(account);
     }
+
+    @GetMapping(value = "/main/me")
+    public Account ReturnUser(){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetails.getUsername();
+        Account account = repoAccount.findByAccUsername(username);
+        return account;
+    }
+
 }
