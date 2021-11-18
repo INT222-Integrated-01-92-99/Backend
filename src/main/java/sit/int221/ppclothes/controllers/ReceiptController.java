@@ -20,8 +20,8 @@ public class ReceiptController {
     }
 
     @GetMapping("/member/receipt/{idreceipt}")
-    public Receipt ReceiptbyId(@PathVariable Long idreceipt){
-        Receipt receipt = repoReceipt.findById(idreceipt).orElse(null);
+    public List<Receipt> ReceiptbyId(@PathVariable Long idreceipt){
+        List<Receipt> receipt = repoReceipt.findByAccount_IdAccount(idreceipt);
         return receipt;
     }
 

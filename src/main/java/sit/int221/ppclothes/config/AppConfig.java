@@ -11,9 +11,10 @@ public class AppConfig implements WebMvcConfigurer {
     private String[] methodList;
     @Value("#{'${clothes.origin.host}'.split(',')}")
     String[] hostList;
-
+    @Value("#{'${clothes.origin.headers}'.split(',')}")
+    String[] headersList;
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins(hostList).allowedMethods(methodList);
+        registry.addMapping("/**").allowedOrigins(hostList).allowedMethods(methodList).allowedHeaders(headersList);
     }
 }
