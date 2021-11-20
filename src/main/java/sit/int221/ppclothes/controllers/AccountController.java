@@ -64,7 +64,7 @@ public class AccountController {
         return newAccount;
     }
 
-    @PutMapping(value = "/main/editaccount")
+    @PutMapping(value = "/allroles/editaccount")
     public Account EditAccount(@RequestBody Account editAccount){
         String encodedpassword = passwordEncoder.encode(editAccount.getAccPass());
         editAccount.setAccPass(encodedpassword);
@@ -101,7 +101,7 @@ public class AccountController {
         repoAccount.save(account);
     }
 
-    @GetMapping(value = "/main/me")
+    @GetMapping(value = "/allroles/me")
     public Account ReturnUser(){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userDetails.getUsername();

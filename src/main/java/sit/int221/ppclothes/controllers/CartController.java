@@ -27,7 +27,7 @@ public class CartController {
     @Autowired
     private repoAccount repoAccount;
 
-    @GetMapping("/member/cart")
+    @GetMapping("/admin/cart")
     public List<Cart> CartAll(){
         return repoCart.findAll();
     }
