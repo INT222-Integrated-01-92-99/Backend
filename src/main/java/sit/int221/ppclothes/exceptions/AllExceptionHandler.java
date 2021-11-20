@@ -10,18 +10,32 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.time.LocalDateTime;
 
 @ControllerAdvice
-public class ProductExceptionHandler extends ResponseEntityExceptionHandler{
+public class AllExceptionHandler extends ResponseEntityExceptionHandler{
 
-    @ExceptionHandler(ProductException.class)
+    @org.springframework.web.bind.annotation.ExceptionHandler(ProductException.class)
     public ResponseEntity<Object> handlerProductExceptions(ProductException productException,WebRequest webRequest){
         ExceptionRepo response = new ExceptionRepo(productException.getError_code(),productException.getMessage(),LocalDateTime.now());
         ResponseEntity<Object> entity = new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
         return entity;
     }
 
-    @ExceptionHandler(CartException.class)
+    @org.springframework.web.bind.annotation.ExceptionHandler(CartException.class)
     public ResponseEntity<Object> handlerCartExceptions(CartException cartException,WebRequest webRequest){
         ExceptionRepo response = new ExceptionRepo(cartException.getError_code(),cartException.getMessage(),LocalDateTime.now());
+        ResponseEntity<Object> entity = new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
+        return entity;
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(AccountException.class)
+    public ResponseEntity<Object> handlerAccountExceptions(AccountException accountException,WebRequest webRequest){
+        ExceptionRepo response = new ExceptionRepo(accountException.getError_code(),accountException.getMessage(),LocalDateTime.now());
+        ResponseEntity<Object> entity = new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
+        return entity;
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(BrandException.class)
+    public ResponseEntity<Object> handlerBrandExceptions(BrandException brandException,WebRequest webRequest){
+        ExceptionRepo response = new ExceptionRepo(brandException.getError_code(),brandException.getMessage(),LocalDateTime.now());
         ResponseEntity<Object> entity = new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
         return entity;
     }

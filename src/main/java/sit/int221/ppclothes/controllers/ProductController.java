@@ -62,7 +62,7 @@ public class ProductController {
         }else if(repoPro.findByProName(newproduct.getProName()) != null){
             throw new ProductException(ExceptionRepo.ERROR_CODE.PRODUCT_NAME_ALREADY_EXIST,"Name : "+newproduct.getProName() + " Have Already");
         }else if(imageFile == null){
-            throw new ProductException(ExceptionRepo.ERROR_CODE.ICECREAM_IMAGE_NULL,"Can't add. Product id: "+newproduct.getIdPro());
+            throw new ProductException(ExceptionRepo.ERROR_CODE.PRODUCT_IMAGE_NULL,"Can't add. Product id: "+newproduct.getIdPro());
         }else newproduct.setProPathImg(storageService.store(imageFile,newproduct.getIdPro()));
         Product Productitem = new Product(newproduct.getIdPro(), newproduct.getProName(),newproduct.getProDescript(),newproduct.getProPrice(),newproduct.getProAmount(),newproduct.getProMfd(),newproduct.getProPathImg(),newproduct.getBrand());
         repoPro.save(Productitem);
@@ -118,7 +118,7 @@ public class ProductController {
         }else if(productName != null && productId.getIdPro() != productName.getIdPro()){
             throw new ProductException(ExceptionRepo.ERROR_CODE.PRODUCT_NAME_ALREADY_EXIST,"Can't edit . Name : "+editProduct.getProName() + " already exist.");
         }else if(imageFile == null){
-            throw new ProductException(ExceptionRepo.ERROR_CODE.ICECREAM_IMAGE_NULL,"Can't edit. Id :"+editProduct.getIdPro());
+            throw new ProductException(ExceptionRepo.ERROR_CODE.PRODUCT_IMAGE_NULL,"Can't edit. Id :"+editProduct.getIdPro());
         }
         storageService.delete(productId.getProPathImg());
         editProduct.setProPathImg(storageService.store(imageFile,editProduct.getIdPro()));

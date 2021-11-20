@@ -11,4 +11,6 @@ public interface repoBrand extends JpaRepository<Brand, Long> {
 
     @Query(value = "SELECT MAX(idBrand) FROM Brand ")
     long getMaxId();
+
+    Brand findByBrandName(String brandname);
 }
