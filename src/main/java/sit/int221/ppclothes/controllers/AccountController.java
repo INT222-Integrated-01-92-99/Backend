@@ -66,8 +66,8 @@ public class AccountController {
 
     @PutMapping(value = "/allroles/editaccount")
     public Account EditAccount(@RequestBody Account editAccount){
-        String encodedpassword = passwordEncoder.encode(editAccount.getAccPass());
-        editAccount.setAccPass(encodedpassword);
+        String EditEncodedPassword = passwordEncoder.encode(editAccount.getAccPass());
+        editAccount.setAccPass(EditEncodedPassword);
         return repoAccount.save(editAccount);
     }
 
@@ -76,21 +76,24 @@ public class AccountController {
     public void DelAccount(@RequestParam long idAccount){
         Account account = repoAccount.findById(idAccount).orElse(null);
         Cart cart = account.getCart();
-        List<CartDetails> cartDetailsList = cart.getCartDetails();
-        for (CartDetails cartDetailsperline : cartDetailsList){
-            repoCartDetails.deleteById(cartDetailsperline.getIdCartDetail());
-        }
-        repoCart.deleteById(cart.getIdCart());
-
-        List<Receipt> receiptList = account.getReceiptList();
-        for(Receipt receiptperline : receiptList){
-            List<ReceiptDetails> receiptDetailsList = receiptperline.getReceiptDetailsList();
-            for(ReceiptDetails receiptDetailsperline : receiptDetailsList){
-                repoReceiptDetails.deleteById(receiptDetailsperline.getIdReceiptDetails());
+        if( cart.getCartDetails() != null ){
+            List<CartDetails> cartDetailsList = cart.getCartDetails();
+            for (CartDetails cartDetailsperline : cartDetailsList){
+                repoCartDetails.deleteById(cartDetailsperline.getIdCartDetail());
             }
-            repoReceipt.deleteById(receiptperline.getIdReceipt());
         }
+        repoCart.delete(cart);
 
+        if( account.getReceiptList() != null ){
+            List<Receipt> receiptList = account.getReceiptList();
+            for(Receipt receiptperline : receiptList){
+                List<ReceiptDetails> receiptDetailsList = receiptperline.getReceiptDetailsList();
+                for(ReceiptDetails receiptDetailsperline : receiptDetailsList){
+                    repoReceiptDetails.deleteById(receiptDetailsperline.getIdReceiptDetails());
+                }
+                repoReceipt.deleteById(receiptperline.getIdReceipt());
+            }
+        }
         repoAccount.deleteById(idAccount);
     }
 
