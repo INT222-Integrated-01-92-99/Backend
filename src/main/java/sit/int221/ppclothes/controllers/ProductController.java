@@ -8,12 +8,11 @@ import org.springframework.web.multipart.MultipartFile;
 import sit.int221.ppclothes.exceptions.ExceptionRepo;
 import sit.int221.ppclothes.exceptions.ProductException;
 
+import sit.int221.ppclothes.models.CartDetails;
 import sit.int221.ppclothes.models.Product;
 import sit.int221.ppclothes.models.Prowithcolors;
 
-import sit.int221.ppclothes.repositories.repoProduct;
-import sit.int221.ppclothes.repositories.repoProwithcolos;
-import sit.int221.ppclothes.repositories.repoBrand;
+import sit.int221.ppclothes.repositories.*;
 
 import sit.int221.ppclothes.services.StorageService;
 
@@ -26,6 +25,8 @@ public class ProductController {
     private repoProduct repoPro;
     @Autowired
     private repoProwithcolos repoProwithcolos;
+    @Autowired
+    private repoCartDetails repoCartDetails;
     @Autowired
     StorageService storageService;
 
@@ -83,6 +84,10 @@ public class ProductController {
         List<Prowithcolors> beforeEditProduct = product.getProwithcolor();
         for(Prowithcolors prowithcolors : beforeEditProduct){
             repoProwithcolos.deleteById(prowithcolors.getIdprowithcolors());
+        }
+        List<CartDetails> cartDetailsList = repoCartDetails.findByProduct_IdPro(idPro);
+        for(CartDetails cartDetailsperline : cartDetailsList){
+            repoCartDetails.deleteById(cartDetailsperline.getIdCartDetail());
         }
         repoPro.deleteById(idPro);
     }

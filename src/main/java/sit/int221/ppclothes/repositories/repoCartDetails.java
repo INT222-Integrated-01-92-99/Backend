@@ -3,6 +3,7 @@ package sit.int221.ppclothes.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import sit.int221.ppclothes.models.CartDetails;
+import sit.int221.ppclothes.models.Product;
 
 import java.util.List;
 
@@ -19,6 +20,8 @@ public interface repoCartDetails extends JpaRepository<CartDetails,Long>{
 
     @Query(value = "SELECT sum(proPerPiece) FROM CartDetails where product.idPro = ?2 and cart.idCart = ?1 and  idCartDetail <> ?3 ")
     Long getTotalInCartWithoutsomeId(long idcart,long idpro,long idcartdetail);
+
+    List<CartDetails> findByProduct_IdPro(long idpro);
 
 //    @Query(value = "")
 //    Long getCartDetailsIdByproId(long idpro);
