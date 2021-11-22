@@ -77,8 +77,6 @@ public class AccountController {
                 repoCartDetails.deleteById(cartDetailsperline.getIdCartDetail());
             }
         }
-        repoCart.delete(cart);
-
         if( account.getReceiptList() != null ){
             List<Receipt> receiptList = account.getReceiptList();
             for(Receipt receiptperline : receiptList){
@@ -89,6 +87,8 @@ public class AccountController {
                 repoReceipt.deleteById(receiptperline.getIdReceipt());
             }
         }
+        repoAccount.deleteById(idAccount);
+        repoCart.deleteById(account.getCart().getIdCart());
     }
 
     @PutMapping(value = "/admin/changerole")

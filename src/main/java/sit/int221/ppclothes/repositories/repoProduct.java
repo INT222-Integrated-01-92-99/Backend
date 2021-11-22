@@ -1,6 +1,7 @@
 package sit.int221.ppclothes.repositories;
 
 import org.springframework.data.repository.query.Param;
+import sit.int221.ppclothes.models.Brand;
 import sit.int221.ppclothes.models.Product;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,4 +21,6 @@ public interface repoProduct extends JpaRepository<Product,Long> {
 
     @Query(value = "SELECT proAmount FROM Product Where idPro = ?1")
     long amount(long idpro);
+
+    List<Product> findByBrand_IdBrand(long brand);
 }

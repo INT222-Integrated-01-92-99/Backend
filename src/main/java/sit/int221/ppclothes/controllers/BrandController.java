@@ -5,7 +5,13 @@ import org.springframework.web.bind.annotation.*;
 import sit.int221.ppclothes.exceptions.BrandException;
 import sit.int221.ppclothes.exceptions.ExceptionRepo;
 import sit.int221.ppclothes.models.Brand;
+import sit.int221.ppclothes.models.Cart;
+import sit.int221.ppclothes.models.CartDetails;
+import sit.int221.ppclothes.models.Product;
 import sit.int221.ppclothes.repositories.repoBrand;
+import sit.int221.ppclothes.repositories.repoProduct;
+import sit.int221.ppclothes.repositories.repoCartDetails;
+import sit.int221.ppclothes.repositories.repoCart;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -15,6 +21,12 @@ import java.util.List;
 public class BrandController {
     @Autowired
     private repoBrand repoBrand;
+    @Autowired
+    private repoProduct repoProduct;
+    @Autowired
+    private repoCartDetails repoCartDetails;
+    @Autowired
+    private repoCart repoCart;
 
     @GetMapping ("/main/brand")
     public List<Brand> brand(){
@@ -48,6 +60,22 @@ public class BrandController {
 
     @DeleteMapping(value = "/admin/deletebrand")
     public void DeleteBrand(@RequestParam long IdBrand){
+        if(repoProduct.findByBrand_IdBrand(IdBrand) != null){
+            List<Product> productList = repoProduct.findByBrand_IdBrand(IdBrand);
+            for(Product productperLine : productList){
+                long idPro = productperLine.getIdPro();
+                if(repoCartDetails.findByProduct_IdPro(idPro) != null){
+                    List<CartDetails> cartDetails = repoCartDetails.findByProduct_IdPro(idPro);
+                    for(CartDetails cartDetailsPerline : cartDetails){
+                        Cart cart = repoCart.findByCartDetails(cartDetailsPerline);
+                        cart.setTotalPrice( cart.getTotalPrice() - cartDetailsPerline.getTotalPrice() );
+                        repoCart.save(cart);
+                        repoCartDetails.deleteById(cartDetailsPerline.getIdCartDetail());
+                    }
+                }
+                repoProduct.deleteById(idPro);
+            }
+        }
         repoBrand.deleteById(IdBrand);
     }
 
