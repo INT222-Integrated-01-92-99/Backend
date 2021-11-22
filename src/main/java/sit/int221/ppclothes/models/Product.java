@@ -15,7 +15,7 @@ public class Product {
     private long idPro;
     private String proName;
     private String proDescript;
-    private double proPrice;
+    private long proPrice;
     private long proAmount;
     private java.sql.Date proMfd;
     private String proPathImg;
@@ -29,7 +29,7 @@ public class Product {
     private List<CartDetails> cartDetailsList;
 
 
-    public Product(long idPro, String proName, String proDescript, double proPrice, long proAmount, Date proMfd, String proPathImg, Brand brand) {
+    public Product(long idPro, String proName, String proDescript, long proPrice, long proAmount, Date proMfd, String proPathImg, Brand brand) {
         this.idPro = idPro;
         this.proName = proName;
         this.proDescript = proDescript;
@@ -68,11 +68,11 @@ public class Product {
         this.proDescript = proDescript;
     }
 
-    public double getProPrice() {
+    public long getProPrice() {
         return proPrice;
     }
 
-    public void setProPrice(double proPrice) {
+    public void setProPrice(long proPrice) {
         this.proPrice = proPrice;
     }
 

@@ -70,7 +70,7 @@ public class JwtAuthenticationController {
 
     @GetMapping(value = "/main/testpasswordencoder")
     public String testPasswordEncoder() {
-        String encodedPassword = passwordEncoder.encode("test");
+        String encodedPassword = passwordEncoder.encode("456789");
         return encodedPassword;
     }
 }

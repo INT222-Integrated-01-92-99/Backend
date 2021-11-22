@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import sit.int221.ppclothes.exceptions.ExceptionRepo;
 import sit.int221.ppclothes.exceptions.ProductException;
 
+import sit.int221.ppclothes.models.Cart;
 import sit.int221.ppclothes.models.CartDetails;
 import sit.int221.ppclothes.models.Product;
 import sit.int221.ppclothes.models.Prowithcolors;
@@ -27,6 +28,8 @@ public class ProductController {
     private repoProwithcolos repoProwithcolos;
     @Autowired
     private repoCartDetails repoCartDetails;
+    @Autowired
+    private repoCart repoCart;
     @Autowired
     StorageService storageService;
 
@@ -89,19 +92,30 @@ public class ProductController {
         for(CartDetails cartDetailsperline : cartDetailsList){
             repoCartDetails.deleteById(cartDetailsperline.getIdCartDetail());
         }
+
+        if(repoCartDetails.findByProduct_IdPro(idPro) != null){
+            List<CartDetails> cartDetails = repoCartDetails.findByProduct_IdPro(idPro);
+            for(CartDetails cartDetailsPerline : cartDetails){
+                Cart cart = repoCart.findByCartDetails(cartDetailsPerline);
+                cart.setTotalPrice( cart.getTotalPrice() - cartDetailsPerline.getTotalPrice() );
+                repoCart.save(cart);
+                repoCartDetails.deleteById(cartDetailsPerline.getIdCartDetail());
+            }
+        }
+
         repoPro.deleteById(idPro);
     }
 
     @PutMapping("/staff/edit")
     public Product edit(@RequestPart Product editProduct){
-        Product productId = repoPro.findById(editProduct.getIdPro()).orElse(null);
+        Product product = repoPro.findById(editProduct.getIdPro()).orElse(null);
         Product productName = repoPro.findByProName(editProduct.getProName());
-        if(productId == null){
+        if(product == null){
             throw new ProductException(ExceptionRepo.ERROR_CODE.PRODUCT_DOES_NOT_EXIST,"Can't edit. Id : "+editProduct.getIdPro() + " does not exist.");
-        }else if(productName != null && productId.getIdPro() != productName.getIdPro()){
+        }else if(productName != null && product.getIdPro() != productName.getIdPro()){
             throw new ProductException(ExceptionRepo.ERROR_CODE.PRODUCT_NAME_ALREADY_EXIST,"Can't edit . Name : "+editProduct.getProName() + " already exist.");
         }
-        List<Prowithcolors> beforeEditProduct = productId.getProwithcolor();
+        List<Prowithcolors> beforeEditProduct = product.getProwithcolor();
         List<Prowithcolors> prowithcolors = editProduct.getProwithcolor();
         for(Prowithcolors prowithcolors1 : beforeEditProduct){
             repoProwithcolos.deleteById(prowithcolors1.getIdprowithcolors());
@@ -111,6 +125,20 @@ public class ProductController {
             repoProwithcolos.save(prowithcolors2);
         }
         editProduct.setProwithcolor(prowithcolors);
+
+        long OldPrice = product.getProPrice();
+        long NewPrice = editProduct.getProPrice();
+        long idPro = product.getIdPro();
+        if(repoCartDetails.findByProduct_IdPro(idPro) != null){
+            List<CartDetails> cartDetails = repoCartDetails.findByProduct_IdPro(idPro);
+            for(CartDetails cartDetailsPerline : cartDetails){
+                Cart cart = repoCart.findByCartDetails(cartDetailsPerline);
+                cart.setTotalPrice( (cart.getTotalPrice() - (OldPrice * cartDetailsPerline.getProPerPiece()) + (NewPrice * cartDetailsPerline.getProPerPiece()) ) );
+                cartDetailsPerline.setTotalPrice(NewPrice * cartDetailsPerline.getProPerPiece());
+                repoCartDetails.save(cartDetailsPerline);
+                repoCart.save(cart);
+            }
+        }
         return repoPro.save(editProduct);
     }
 

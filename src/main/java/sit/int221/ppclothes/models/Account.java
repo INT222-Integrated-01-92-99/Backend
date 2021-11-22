@@ -26,7 +26,7 @@ public class Account {
     @JoinColumn(name = "idRole")
     private Role idRole;
 
-    public Account(long idAccount, String accUsername, String accPass, String accFname, String accLname, String accPhone, String accAddress, Role idRole) {
+    public Account(long idAccount, String accUsername, String accPass, String accFname, String accLname, String accPhone, String accAddress, Role idRole , Cart cart) {
         this.idAccount = idAccount;
         this.accUsername = accUsername;
         this.accPass = accPass;
@@ -35,6 +35,7 @@ public class Account {
         this.accPhone = accPhone;
         this.accAddress = accAddress;
         this.idRole = idRole;
+        this.cart = cart;
     }
 
     public Account() {

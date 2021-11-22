@@ -73,7 +73,7 @@ public class CartController {
         Cart cart = repoCart.findById(idcart).orElse(null);
         Product product = repoProduct.findById(idpro).orElse(null);
         Color color = repoColor.findById(idcolor).orElse(null);
-        double totalprice = product.getProPrice() * amount;
+        long totalprice = product.getProPrice() * amount;
         cart.setTotalPrice(cart.getTotalPrice()+totalprice);
         CartDetails newitemincart = new CartDetails(product,cart,amount,totalprice,color);
         return repoCartDetails.save(newitemincart);
@@ -86,9 +86,9 @@ public class CartController {
         Cart cart = repoCart.findById(idcart).orElse(null);
         checkamount(amount,idpro,idcart,idcartdetail);
         CartDetails cartDetails = repoCartDetails.findById(idcartdetail).orElse(null);
-        double productprice = cartDetails.getTotalPrice() / cartDetails.getProPerPiece();
+        long productprice = cartDetails.getTotalPrice() / cartDetails.getProPerPiece();
         cart.setTotalPrice(cart.getTotalPrice() - cartDetails.getTotalPrice());
-        double newtotalprice = productprice * amount;
+        long newtotalprice = productprice * amount;
         cart.setTotalPrice(cart.getTotalPrice() + newtotalprice);
         cartDetails.setProPerPiece(amount);
         cartDetails.setTotalPrice(newtotalprice);
@@ -132,7 +132,7 @@ public class CartController {
             long idpro = cartDetailperline.getProduct().getIdPro();
             String proname = cartDetailperline.getProduct().getProName();
             String brandname = cartDetailperline.getProduct().getBrand().getBrandName();
-            Double proprice = cartDetailperline.getProduct().getProPrice();
+            long proprice = cartDetailperline.getProduct().getProPrice();
             long properpiece = cartDetailperline.getProPerPiece();
             double totalprice = cartDetailperline.getTotalPrice();
             Color color = cartDetailperline.getColor();
