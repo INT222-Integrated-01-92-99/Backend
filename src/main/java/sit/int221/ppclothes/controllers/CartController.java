@@ -101,7 +101,7 @@ public class CartController {
     public void deleteitemincart(@RequestParam(name = "idcartdetail") long idcartdetail){
         long idcart = repoCartDetails.getidcart(idcartdetail);
         CartDetails delcartdetail = repoCartDetails.findById(idcartdetail).orElse(null);
-        double totalprice = delcartdetail.getTotalPrice();
+        long totalprice = delcartdetail.getTotalPrice();
         Cart cart = repoCart.findById(idcart).orElse(null);
         cart.setTotalPrice(cart.getTotalPrice() - totalprice);
         repoCartDetails.deleteById(idcartdetail);
@@ -112,7 +112,7 @@ public class CartController {
         for(long idcartdetailPerline : idcartdetail){
             long idcart = repoCartDetails.getidcart(idcartdetailPerline);
             CartDetails delcartdetail = repoCartDetails.findById(idcartdetailPerline).orElse(null);
-            double totalprice = delcartdetail.getTotalPrice();
+            long totalprice = delcartdetail.getTotalPrice();
             Cart cart = repoCart.findById(idcart).orElse(null);
             cart.setTotalPrice(cart.getTotalPrice() - totalprice);
             repoCartDetails.deleteById(idcartdetailPerline);
@@ -134,7 +134,7 @@ public class CartController {
             String brandname = cartDetailperline.getProduct().getBrand().getBrandName();
             long proprice = cartDetailperline.getProduct().getProPrice();
             long properpiece = cartDetailperline.getProPerPiece();
-            double totalprice = cartDetailperline.getTotalPrice();
+            long totalprice = cartDetailperline.getTotalPrice();
             Color color = cartDetailperline.getColor();
             ReceiptDetails newreceiptDetail = new ReceiptDetails(receipt,color,proname,brandname,proprice,properpiece,totalprice);
             repoReceiptDetails.save(newreceiptDetail);

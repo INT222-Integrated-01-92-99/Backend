@@ -55,9 +55,8 @@ public class AccountController {
         }
         Cart newCart = new Cart(0,0);
         repoCart.save(newCart);
-        long newIDaccount = repoAccount.getMaxidAcc() + 1;
         String encodedpassword = passwordEncoder.encode(newAccount.getAccPass());
-        Account newAccountnoReceipt = new Account(newIDaccount,newAccount.getAccUsername(),encodedpassword,newAccount.getAccFname(), newAccount.getAccLname(), newAccount.getAccPhone(), newAccount.getAccAddress(),newAccount.getIdRole(),newCart);
+        Account newAccountnoReceipt = new Account(0,newAccount.getAccUsername(),encodedpassword,newAccount.getAccFname(), newAccount.getAccLname(), newAccount.getAccPhone(), newAccount.getAccAddress(),newAccount.getIdRole(),newCart);
         repoAccount.save(newAccountnoReceipt);
         return newAccount;
     }
