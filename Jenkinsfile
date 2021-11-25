@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        nodejs "nodejs"
+    }
+
     stages {
 
         stage('(stop), remove container and image') {
@@ -40,5 +44,13 @@ pipeline {
             }
         }
 
+        stage('test') {
+            steps {
+                sh 'node --version '
+                sh 'npm --version '
+                sh 'npm install -g newman'
+                sh 'newman run https://www.getpostman.com/collections/ead9f4c1b0c12b35303b'
+            }
+        }
     }
 }
