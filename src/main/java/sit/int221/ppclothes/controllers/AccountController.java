@@ -10,7 +10,7 @@ import sit.int221.ppclothes.models.*;
 import sit.int221.ppclothes.repositories.repoAccount;
 import sit.int221.ppclothes.repositories.repoCart;
 import sit.int221.ppclothes.repositories.repoCartDetails;
-import sit.int221.ppclothes.repositories.repoRole;
+import sit.int221.ppclothes.repositories.repoBrand;
 import sit.int221.ppclothes.repositories.repoReceipt;
 import sit.int221.ppclothes.repositories.repoReceiptDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class AccountController {
     @Autowired
     private repoCart repoCart;
     @Autowired
-    private repoRole repoRole;
+    private repoBrand repoBrand;
     @Autowired
     private repoCartDetails repoCartDetails;
     @Autowired
@@ -104,6 +104,21 @@ public class AccountController {
         String username = userDetails.getUsername();
         Account account = repoAccount.findByAccUsername(username);
         return account;
+    }
+
+    @GetMapping(value = "/staff/brand")
+    public List<Brand> PresentStaffGetBrand(){
+        return repoBrand.findAll();
+    }
+
+    @GetMapping(value = "/staff/account")
+    public List<Account> PresentStaffGetAccount(){
+        return repoAccount.findAll();
+    }
+
+    @GetMapping(value = "/member/brand")
+    public List<Brand> PresentMemberGetBrand(){
+        return repoBrand.findAll();
     }
 
 }
